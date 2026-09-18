@@ -51,7 +51,7 @@ const COMPILE_SCHEMA = {
     criteria: {
       type: "array",
       minItems: 1,
-      maxItems: 20,
+      description: "At most 20 criteria.",
       items: {
         type: "object",
         additionalProperties: false,
@@ -77,7 +77,7 @@ const COMPILE_SCHEMA = {
             items: { type: "integer" },
             description: "Score only: indices of levels that count as the criterion being met. Null for noul.",
           },
-          weight: { type: "number", minimum: 0, maximum: 1, description: "Relative importance, 0-1." },
+          weight: { type: "number", description: "Relative importance, 0-1." },
         },
       },
     },
