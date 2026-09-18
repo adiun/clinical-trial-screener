@@ -18,6 +18,10 @@ loadDotEnv();
 const config = readConfig();
 const here = path.dirname(fileURLToPath(import.meta.url));
 
+// Seeds the in-memory credential from .env so the Claude drawer starts
+// configured; still never written back to disk from here on.
+if (config.anthropicApiKey) claude.setCredentials(config.anthropicApiKey);
+
 const store = new Store(config.dbPath);
 ensureDefaultProtocol(store);
 

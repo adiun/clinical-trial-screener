@@ -30,6 +30,7 @@ export interface Config {
   /** Per-request timeout for the live client. A hung request costs at most this long. */
   jevTimeoutMs: number;
   typesafeApiKey: string | undefined;
+  anthropicApiKey: string | undefined;
   /** Mock only: probability that a call fails with a simulated 429. */
   mockRateLimitRate: number;
 }
@@ -50,6 +51,7 @@ export function readConfig(): Config {
     jevModel: process.env.JEV_MODEL?.trim() || "jev-latest",
     jevTimeoutMs: Number.isFinite(timeout) && timeout > 0 ? timeout : 15_000,
     typesafeApiKey: process.env.TYPESAFE_API_KEY?.trim() || undefined,
+    anthropicApiKey: process.env.ANTHROPIC_API_KEY?.trim() || undefined,
     mockRateLimitRate: clamp01(Number.parseFloat(process.env.MOCK_JEV_429_RATE ?? "0")),
   };
 }
