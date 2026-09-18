@@ -17,6 +17,12 @@ export interface RunRequest {
   threshold: number;
   /** Ignore the cache and re-ask everything. */
   force?: boolean;
+  /**
+   * Retry failed requests (transport retries plus the pool-wide 429 pause).
+   * Default true. Off trades completeness for speed: a failed note is reported
+   * as failed immediately and the run never waits on backoff.
+   */
+  retries?: boolean;
 }
 
 export class Runner {
@@ -76,6 +82,8 @@ export class Runner {
       rateLimitPauses: 0,
       rateLimitHeaders: {},
       errors: 0,
+      retries: req.retries !== false,
+      failures: {},
       summary: null,
     };
     this.store.createRun(stats, protocol);
@@ -120,6 +128,8 @@ export class Runner {
 
     const pendingCache: { noteId: string; answer: Answer; model: string; runId: string }[] = [];
     const pendingLog: Parameters<Store["logDecisions"]>[0][number][] = [];
+    const retries = req.retries !== false;
+    const failures: Record<string, string> = {};
 
     await runPool(toAsk, { concurrency: this.concurrency, signal: abort.signal, gate }, async (p) => {
       const state = buildState(p.note.text, p.note.age, p.note.sex);
@@ -127,7 +137,7 @@ export class Runner {
       while (true) {
         if (abort.signal.aborted) return;
         try {
-          const res = await this.jev.evaluate(p.note.id, state, p.missing, abort.signal);
+          const res = await this.jev.evaluate(p.note.id, state, p.missing, abort.signal, { retries });
           latencies.push(res.latencyMs);
           stats.apiCalls++;
           stats.inputTokens += res.inputTokens;
@@ -158,7 +168,7 @@ export class Runner {
           return;
         } catch (err) {
           if (abort.signal.aborted) return;
-          if (err instanceof RateLimited && attempt < 6) {
+          if (retries && err instanceof RateLimited && attempt < 6) {
             attempt++;
             const pause = Math.min(30_000, Math.max(250, err.retryAfterMs) * Math.pow(1.5, attempt - 1));
             gate.pause(pause);
@@ -168,8 +178,10 @@ export class Runner {
             continue;
           }
           stats.errors++;
+          const message = describeError(err);
+          failures[p.note.id] = message;
           results[p.note.id] = p.cached;
-          this.hub.send({ type: "note", runId, noteId: p.note.id, answers: p.cached, index: index++ });
+          this.hub.send({ type: "note", runId, noteId: p.note.id, answers: p.cached, index: index++, error: message });
           return;
         }
       }
@@ -185,6 +197,8 @@ export class Runner {
     stats.elapsedMs = elapsed;
     stats.finishedAt = new Date().toISOString();
     stats.estimatedCostUsd = estimateJevCostUsd(stats.inputTokens);
+    stats.retries = retries;
+    stats.failures = failures;
 
     const snapshot: Record<string, NoteStatusSnapshot> = {};
     for (const note of notes) snapshot[note.id] = noteStatus(criteria, results[note.id], req.threshold);
@@ -230,4 +244,14 @@ export class Runner {
     }
     return { protocol: run.protocol, answers, stats: run.stats };
   }
+}
+
+/** Short, user-facing reason for a failed note. Never includes request bodies. */
+function describeError(err: unknown): string {
+  if (err instanceof RateLimited) return `rate limited (429), retry-after ${Math.round(err.retryAfterMs)} ms`;
+  if (err instanceof Error) {
+    if (err.name === "AbortError" || /timed? ?out/i.test(err.message)) return "timed out";
+    return err.message.slice(0, 200) || err.name;
+  }
+  return String(err).slice(0, 200);
 }

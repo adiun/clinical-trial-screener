@@ -38,6 +38,12 @@ watch it happen.
   from aggregate counts only. It never sees note text. The **Examples…**
   picker above the description box loads one of eleven canned trial
   descriptions (`client/src/prompts.ts`) so you can switch prompts quickly.
+- **Retries** switch (header): on by default, the live client retries 429s and
+  5xxs with backoff and the whole pool pauses together on a 429. Off, every
+  note gets exactly one attempt, so a run never waits on backoff. A note whose
+  request fails shows a **Failed** status with the reason, a **Failed** filter
+  appears in the grid toolbar, and the Sweep readout counts them. Running
+  again re-asks only the failed notes; everything else comes from cache.
 - **Reset** (header, next to Run) returns the app to a cold start: it cancels
   any run in flight, empties the answer cache, deletes every run and its
   decision log, and restores the default protocol. Notes and the Claude key
@@ -101,6 +107,7 @@ see [Generating synthetic notes](#generating-synthetic-notes) below.
 | `MOCK_JEV_429_RATE` | `0` | Mock only: fraction of calls that return a simulated 429 |
 | `JEV_CONCURRENCY` | `50` live, `160` mock | Bounded fan-out pool size |
 | `JEV_MODEL` | `jev-latest` | Model alias or pinned version |
+| `JEV_TIMEOUT_MS` | `15000` | Live only: per-request timeout. A hung request costs at most this long; lower it when measuring speed with retries off |
 | `PORT` | `8787` | Backend port |
 | `NOTES_PATH` | `data/notes.jsonl` | Notes file for import |
 | `DB_PATH` | `data/screener.db` | SQLite file |

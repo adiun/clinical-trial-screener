@@ -118,6 +118,10 @@ export interface RunStats {
   rateLimitPauses: number;
   rateLimitHeaders: Record<string, string>;
   errors: number;
+  /** Whether failed requests were retried during this run. */
+  retries: boolean;
+  /** noteId -> short reason, for every note whose request failed. */
+  failures: Record<string, string>;
   summary: string | null;
 }
 
@@ -140,13 +144,15 @@ export interface AppState {
   jevModel: string;
   concurrency: number;
   notesLoaded: boolean;
+  /** Server-side run setting: retry failed Jev requests. */
+  retries: boolean;
 }
 
 /** Server-sent events. */
 export type SseEvent =
   | { type: "hello"; mode: "mock" | "live" }
   | { type: "run-start"; runId: string; total: number; toAsk: number; fromCache: number; criterionIds: string[]; trigger: RunStats["trigger"] }
-  | { type: "note"; runId: string; noteId: string; answers: Record<string, Answer>; index: number }
+  | { type: "note"; runId: string; noteId: string; answers: Record<string, Answer>; index: number; error?: string }
   | { type: "rate-limit"; runId: string; pauseMs: number }
   | { type: "run-complete"; runId: string; stats: RunStats; snapshot: Record<string, NoteStatusSnapshot> }
   | { type: "run-error"; runId: string; message: string }

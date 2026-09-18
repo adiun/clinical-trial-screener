@@ -47,6 +47,19 @@ export function Numerics() {
   const jevModel = useStore((s) => s.jevModel);
   const theme = useStore((s) => s.theme);
   const autoRun = useStore((s) => s.autoRun);
+  const retries = useStore((s) => s.retries);
+  const failedCount = useStore((s) => Object.keys(s.failures).length);
+
+  const setRetries = async (on: boolean) => {
+    actions.setRetries(on);
+    try {
+      const r = await api.settings({ retries: on });
+      actions.setRetries(r.retries);
+    } catch (err) {
+      actions.setRetries(!on);
+      actions.toast(err instanceof Error ? err.message : String(err), "error");
+    }
+  };
   const drawer = useStore((s) => s.drawer);
   const notesLoaded = useStore((s) => s.notesLoaded);
   const noteCount = useStore((s) => s.notes.length);
@@ -135,6 +148,7 @@ export function Numerics() {
           <span className="tele-value">
             {done}/{total} · {fmtSeconds(elapsed)}
             {paused && <span className="tele-pause"> · paused {Math.round((run.pauseMs ?? 0) / 100) / 10}s (429)</span>}
+            {failedCount > 0 && <span className="tele-fail"> · {failedCount} failed</span>}
           </span>
         </div>
         <div className="tele">
@@ -154,6 +168,11 @@ export function Numerics() {
           <input type="checkbox" checked={autoRun} onChange={(e) => actions.setAutoRun(e.target.checked)} />
           <span className="switch-track" aria-hidden="true" />
           <span className="switch-text" title="Re-run the edited criterion automatically after each committed edit">Auto-run</span>
+        </label>
+        <label className="switch">
+          <input type="checkbox" checked={retries} onChange={(e) => void setRetries(e.target.checked)} />
+          <span className="switch-track" aria-hidden="true" />
+          <span className="switch-text" title="Retry failed Jev requests with backoff. Off: one attempt per note, failures are shown in the list, and no time is spent waiting on retries.">Retries</span>
         </label>
         <button className={`iconbtn${drawer === "eval" ? " active" : ""}`} onClick={() => actions.setDrawer("eval")} aria-pressed={drawer === "eval"} title="Evaluation against ground truth">
           <IconChart />

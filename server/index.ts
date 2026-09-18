@@ -32,6 +32,9 @@ const jev = createJevClient(config);
 const hub = new SseHub();
 const runner = new Runner(store, jev, hub, config.jevConcurrency);
 
+// Runtime run settings, held in memory for the process lifetime.
+const settings = { retries: true };
+
 const app = Fastify({
   // Request bodies are never logged: the credentials route would leak. Request
   // logging is emitted at info level, so warn suppresses it entirely.
@@ -82,8 +85,14 @@ function appState(): AppState {
     jevModel: jev.model,
     concurrency: config.jevConcurrency,
     notesLoaded: store.noteCount() > 0,
+    retries: settings.retries,
   };
 }
+
+app.post<{ Body: { retries?: boolean } }>("/api/settings", async (req) => {
+  if (typeof req.body?.retries === "boolean") settings.retries = req.body.retries;
+  return { retries: settings.retries };
+});
 
 app.get("/api/state", async (): Promise<AppState> => appState());
 
@@ -183,7 +192,7 @@ app.post<{ Body: { threshold?: number; trigger?: "run" | "edit"; force?: boolean
   const trigger = req.body?.trigger === "edit" ? "edit" : "run";
   const p = protocol();
   // Fire and forget: progress streams over SSE.
-  void runner.run(p, { threshold, trigger, force: Boolean(req.body?.force) }).catch((err) => {
+  void runner.run(p, { threshold, trigger, force: Boolean(req.body?.force), retries: settings.retries }).catch((err) => {
     app.log.error({ err: String(err) }, "run failed");
   });
   return { ok: true };

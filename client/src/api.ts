@@ -23,6 +23,7 @@ export const api = {
   run: (threshold: number, trigger: "run" | "edit", force = false) =>
     request<{ ok: boolean }>("/api/run", { method: "POST", body: JSON.stringify({ threshold, trigger, force }) }),
   cancel: () => request<{ ok: boolean }>("/api/run/cancel", { method: "POST" }),
+  settings: (patch: { retries?: boolean }) => request<{ retries: boolean }>("/api/settings", { method: "POST", body: JSON.stringify(patch) }),
   importNotes: () => request<{ ok: boolean; imported?: number; skipped?: number; error?: string }>("/api/import", { method: "POST" }),
   updateCriterion: (id: string, patch: Partial<CriterionInput>) =>
     request<Criterion>(`/api/criteria/${encodeURIComponent(id)}`, { method: "PATCH", body: JSON.stringify(patch) }),

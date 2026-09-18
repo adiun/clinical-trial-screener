@@ -29,6 +29,7 @@ export function Grid() {
   const { snapshots } = useStore((s) => snapshotsFor(s));
   const flips = useStore((s) => flipsFor(s));
   const filter = useStore((s) => s.filter);
+  const failures = useStore((s) => s.failures);
   const sort = useStore((s) => s.sort);
   const selected = useStore((s) => s.selectedNoteId);
   const run = useStore((s) => s.run);
@@ -39,12 +40,14 @@ export function Grid() {
   const rows = useMemo(() => {
     let list: NoteView[] = notes;
     if (filter === "flipped") list = notes.filter((n) => flips.has(n.id));
+    else if (filter === "failed") list = notes.filter((n) => n.id in failures);
     else if (filter !== "all") list = notes.filter((n) => snapshots[n.id]?.status === filter);
     if (sort === "status") list = [...list].sort((a, b) => STATUS_ORDER[snapshots[a.id]?.status ?? "pending"] - STATUS_ORDER[snapshots[b.id]?.status ?? "pending"] || a.position - b.position);
     else if (sort === "score") list = [...list].sort((a, b) => eligibilityScore(criteria, answers[b.id]) - eligibilityScore(criteria, answers[a.id]) || a.position - b.position);
     else if (sort === "id") list = [...list].sort((a, b) => a.id.localeCompare(b.id));
     return list;
-  }, [notes, filter, sort, snapshots, flips, criteria, answers]);
+  }, [notes, filter, sort, snapshots, flips, criteria, answers, failures]);
+  const failedCount = Object.keys(failures).length;
 
   // ---- virtualization ------------------------------------------------------
   const scroller = useRef<HTMLDivElement>(null);
@@ -91,9 +94,9 @@ export function Grid() {
     <section className="grid" aria-label="Notes">
       <div className="grid-tools">
         <div className="seg" role="group" aria-label="Filter">
-          {(["all", "eligible", "ineligible", "review", "flipped"] as Filter[]).map((f) => (
-            <button key={f} className={`seg-btn${filter === f ? " on" : ""}`} onClick={() => actions.setFilter(f)} aria-pressed={filter === f}>
-              {f === "all" ? "All" : f === "flipped" ? `Flipped${flippedCount ? ` · ${flippedCount}` : ""}` : f[0]!.toUpperCase() + f.slice(1)}
+          {(["all", "eligible", "ineligible", "review", "flipped", ...(failedCount || filter === "failed" ? (["failed"] as Filter[]) : [])] as Filter[]).map((f) => (
+            <button key={f} className={`seg-btn${filter === f ? " on" : ""}${f === "failed" ? " seg-bad" : ""}`} onClick={() => actions.setFilter(f)} aria-pressed={filter === f}>
+              {f === "all" ? "All" : f === "flipped" ? `Flipped${flippedCount ? ` · ${flippedCount}` : ""}` : f === "failed" ? `Failed · ${failedCount}` : f[0]!.toUpperCase() + f.slice(1)}
             </button>
           ))}
         </div>
@@ -150,7 +153,10 @@ export function Grid() {
           {visible.map((note, i) => {
             const index = start + i;
             const snap = snapshots[note.id];
-            const status = snap?.status ?? "pending";
+            const failure = failures[note.id];
+            // A failed request leaves the note without answers for the asked
+            // criteria; show the failure rather than an indefinite Pending.
+            const status = failure && (snap?.status ?? "pending") === "pending" ? "failed" : (snap?.status ?? "pending");
             const flip = flips.get(note.id);
             const arrived = arrivals[note.id];
             const fresh = arrived !== undefined && now - arrived < BLIP_MS;
@@ -162,7 +168,8 @@ export function Grid() {
                 aria-rowindex={index + 1}
                 aria-selected={selected === note.id}
                 tabIndex={0}
-                className={`row row-${status}${selected === note.id ? " selected" : ""}${flip ? " flipped" : ""}`}
+                className={`row row-${status}${selected === note.id ? " selected" : ""}${flip ? " flipped" : ""}${failure ? " failed" : ""}`}
+                title={failure ? `Request failed: ${failure}` : undefined}
                 style={{ transform: `translateY(${index * ROW_H}px)`, gridTemplateColumns: gridTemplate }}
                 onClick={() => actions.select(note.id)}
                 onKeyDown={(e) => {
@@ -195,6 +202,7 @@ export function Grid() {
                   );
                 })}
                 <span className="cell cell-flip" role="gridcell">
+                  {failure && !narrow && !flip && <span className="fail-note">{failure}</span>}
                   {flip && !narrow && (
                     <span className="flip-note">
                       <span className="data">

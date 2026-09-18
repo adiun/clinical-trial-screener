@@ -5,7 +5,7 @@ import { useSyncExternalStore } from "react";
 import type { Answer, AppState, ClaudeStatus, NoteStatusSnapshot, NoteView, Protocol, RunStats, SseEvent } from "../../shared/types.js";
 import { countStatuses, flippedNotes, noteStatus, type Counts, type Flip } from "../../shared/rollup.js";
 
-export type Filter = "all" | "eligible" | "ineligible" | "review" | "flipped";
+export type Filter = "all" | "eligible" | "ineligible" | "review" | "flipped" | "failed";
 export type SortKey = "arrival" | "status" | "score" | "id";
 export type Drawer = "eval" | "claude" | "json" | null;
 export type Theme = "light" | "dark";
@@ -48,6 +48,10 @@ export interface State {
   drawer: Drawer;
   theme: Theme;
   autoRun: boolean;
+  /** Server-side setting: retry failed Jev requests. */
+  retries: boolean;
+  /** noteId -> reason, for notes whose request failed in the current or last run. */
+  failures: Record<string, string>;
   claude: ClaudeStatus | null;
   summary: { runId: string; text: string } | null;
   summaryPending: boolean;
@@ -104,6 +108,8 @@ let state: State = {
   drawer: null,
   theme: readTheme(),
   autoRun: readStored("screener.autoRun", true),
+  retries: true,
+  failures: {},
   claude: null,
   summary: null,
   summaryPending: false,
@@ -112,7 +118,7 @@ let state: State = {
 
 const listeners = new Set<() => void>();
 let frame: number | null = null;
-let pendingNotes: { noteId: string; answers: Record<string, Answer> }[] = [];
+let pendingNotes: { noteId: string; answers: Record<string, Answer>; error: string | undefined }[] = [];
 let pendingOther: SseEvent[] = [];
 
 function emit(): void {
@@ -185,6 +191,8 @@ export function hydrate(app: AppState): void {
     notes: app.notes,
     answers: app.answers,
     lastRun: app.lastRun,
+    retries: app.retries,
+    failures: app.lastRun?.failures ?? {},
     baseline: app.previousSnapshot ?? null,
     run: app.lastRun
       ? { ...initialRun, id: app.lastRun.runId, phase: "done", total: app.lastRun.noteCount, done: app.lastRun.noteCount, elapsedMs: app.lastRun.elapsedMs, trigger: app.lastRun.trigger }
@@ -201,7 +209,7 @@ export function setLoadError(message: string): void {
 
 export function handleEvent(ev: SseEvent): void {
   if (ev.type === "note") {
-    pendingNotes.push({ noteId: ev.noteId, answers: ev.answers });
+    pendingNotes.push({ noteId: ev.noteId, answers: ev.answers, error: ev.error });
   } else {
     pendingOther.push(ev);
   }
@@ -225,6 +233,7 @@ function flush(): void {
       ...next,
       baseline: snapshots,
       summary: null,
+      failures: {},
       run: {
         id: e.runId,
         phase: "running",
@@ -245,11 +254,13 @@ function flush(): void {
   if (notes.length) {
     const answers = { ...next.answers };
     const arrivals = { ...next.arrivals };
+    let failures = next.failures;
     for (const n of notes) {
       answers[n.noteId] = n.answers;
       arrivals[n.noteId] = now;
+      if (n.error) failures = { ...failures, [n.noteId]: n.error };
     }
-    next = { ...next, answers, arrivals, run: { ...next.run, done: next.run.done + notes.length } };
+    next = { ...next, answers, arrivals, failures, run: { ...next.run, done: next.run.done + notes.length } };
   }
 
   for (const e of others) {
@@ -330,6 +341,9 @@ export const actions = {
   setProtocol(protocol: Protocol) {
     set({ protocol });
   },
+  setRetries(retries: boolean) {
+    set({ retries });
+  },
   setClaude(claude: ClaudeStatus | null) {
     set({ claude });
   },
@@ -351,6 +365,6 @@ export const actions = {
     pendingNotes = [];
     pendingOther = [];
     hydrate(app);
-    set({ arrivals: {}, baseline: null, selectedNoteId: null, filter: "all", summary: null, summaryPending: false });
+    set({ arrivals: {}, baseline: null, selectedNoteId: null, filter: "all", summary: null, summaryPending: false, failures: {} });
   },
 };

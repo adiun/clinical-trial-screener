@@ -83,7 +83,7 @@ describe("decision log and replay", () => {
     const stats = {
       runId: "run1", startedAt: "t", finishedAt: null, elapsedMs: null, noteCount: 2, apiCalls: 0, cachedNotes: 0,
       p50: null, p95: null, p99: null, inputTokens: 0, estimatedCostUsd: 0, model: "m", mode: "mock" as const,
-      trigger: "run" as const, threshold: 0.6, rateLimitPauses: 0, rateLimitHeaders: {}, errors: 0, summary: null,
+      trigger: "run" as const, threshold: 0.6, rateLimitPauses: 0, rateLimitHeaders: {}, errors: 0, retries: true, failures: {}, summary: null,
     };
     store.createRun(stats, protocol);
     store.logDecisions([{ runId: "run1", noteId: "n1", criterionId: c.id, criterionHash: c.hash, question: c.question, p: 0.9, c: 0.8, threshold: 0.6, latencyMs: 12 }]);
@@ -99,7 +99,7 @@ describe("decision log and replay", () => {
     const stats = {
       runId: "run1", startedAt: "t", finishedAt: "t2", elapsedMs: 5, noteCount: 2, apiCalls: 1, cachedNotes: 0,
       p50: 1, p95: 1, p99: 1, inputTokens: 0, estimatedCostUsd: 0, model: "m", mode: "mock" as const,
-      trigger: "run" as const, threshold: 0.6, rateLimitPauses: 0, rateLimitHeaders: {}, errors: 0, summary: null,
+      trigger: "run" as const, threshold: 0.6, rateLimitPauses: 0, rateLimitHeaders: {}, errors: 0, retries: true, failures: {}, summary: null,
     };
     store.createRun(stats, protocol);
     store.finishRun(stats, {});

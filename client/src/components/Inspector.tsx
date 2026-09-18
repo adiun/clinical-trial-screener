@@ -11,6 +11,7 @@ export function Inspector() {
   const answers = useStore((s) => (s.selectedNoteId ? s.answers[s.selectedNoteId] : undefined));
   const threshold = useStore((s) => s.threshold);
   const snap = useStore((s) => (s.selectedNoteId ? snapshotsFor(s).snapshots[s.selectedNoteId] : undefined));
+  const failure = useStore((s) => (s.selectedNoteId ? s.failures[s.selectedNoteId] : undefined));
 
   useEffect(() => {
     if (!selectedId) return;
@@ -34,11 +35,17 @@ export function Inspector() {
             {note.sex ? ` · ${note.sex}` : ""}
           </span>
         </div>
-        <StatusField status={snap?.status ?? "pending"} />
+        <StatusField status={failure && (snap?.status ?? "pending") === "pending" ? "failed" : (snap?.status ?? "pending")} />
         <button className="iconbtn" onClick={() => actions.select(null)} aria-label="Close note">
           <IconClose />
         </button>
       </header>
+
+      {failure && (
+        <p className="inspector-fail" role="status">
+          The Jev request for this note failed and was not retried: <span className="data">{failure}</span>. Run again to re-ask it; unchanged criteria still come from cache.
+        </p>
+      )}
 
       <pre className="note-text">{note.text}</pre>
 

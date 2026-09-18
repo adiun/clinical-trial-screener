@@ -30,15 +30,19 @@ export function Lamp({ status, kind, blip, title }: { status: CriterionStatus; k
   );
 }
 
-export const STATUS_WORD: Record<NoteStatus, string> = {
+/** A note's rollup status, or "failed" when its Jev request errored and was not retried. */
+export type RowStatus = NoteStatus | "failed";
+
+export const STATUS_WORD: Record<RowStatus, string> = {
   eligible: "Eligible",
   ineligible: "Ineligible",
   review: "Review",
   pending: "Pending",
+  failed: "Failed",
 };
 
 /** Status field: glyph plus word. Never color alone. */
-export function StatusField({ status, compact }: { status: NoteStatus; compact?: boolean }) {
+export function StatusField({ status, compact }: { status: RowStatus; compact?: boolean }) {
   return (
     <span className={`status status-${status}`}>
       <svg className="status-glyph" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
@@ -61,6 +65,13 @@ export function StatusField({ status, compact }: { status: NoteStatus; compact?:
           </>
         )}
         {status === "pending" && <rect x="1.75" y="1.75" width="8.5" height="8.5" rx="1" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 1.5" />}
+        {status === "failed" && (
+          <>
+            <rect x="1.75" y="1.75" width="8.5" height="8.5" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M6 3.6v3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            <circle cx="6" cy="8.6" r="0.9" fill="currentColor" />
+          </>
+        )}
       </svg>
       {!compact && <span className="status-word">{STATUS_WORD[status]}</span>}
     </span>

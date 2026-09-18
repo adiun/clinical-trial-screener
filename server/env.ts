@@ -27,6 +27,8 @@ export interface Config {
   mockJev: boolean;
   jevConcurrency: number;
   jevModel: string;
+  /** Per-request timeout for the live client. A hung request costs at most this long. */
+  jevTimeoutMs: number;
   typesafeApiKey: string | undefined;
   /** Mock only: probability that a call fails with a simulated 429. */
   mockRateLimitRate: number;
@@ -38,6 +40,7 @@ export function readConfig(): Config {
   // mock has no rate limit and 70-500ms of jitter per call, so its default pool
   // is sized to land a 500-note sweep near the one-second mark the demo is about.
   const concurrency = Number.parseInt(process.env.JEV_CONCURRENCY ?? (mockJev ? "160" : "50"), 10);
+  const timeout = Number.parseInt(process.env.JEV_TIMEOUT_MS ?? "15000", 10);
   return {
     port: Number.parseInt(process.env.PORT ?? "8787", 10),
     dbPath: process.env.DB_PATH ?? path.resolve(process.cwd(), "data/screener.db"),
@@ -45,6 +48,7 @@ export function readConfig(): Config {
     mockJev,
     jevConcurrency: Number.isFinite(concurrency) && concurrency > 0 ? concurrency : 50,
     jevModel: process.env.JEV_MODEL?.trim() || "jev-latest",
+    jevTimeoutMs: Number.isFinite(timeout) && timeout > 0 ? timeout : 15_000,
     typesafeApiKey: process.env.TYPESAFE_API_KEY?.trim() || undefined,
     mockRateLimitRate: clamp01(Number.parseFloat(process.env.MOCK_JEV_429_RATE ?? "0")),
   };

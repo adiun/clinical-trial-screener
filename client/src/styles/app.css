@@ -201,6 +201,9 @@ input[type="range"]:focus-visible::-webkit-slider-thumb {
 .tele-pause {
   color: var(--warn);
 }
+.tele-fail {
+  color: var(--bad);
+}
 
 .controls {
   gap: calc(var(--u) * 2);
@@ -836,6 +839,24 @@ select:hover {
 .status-ineligible { color: var(--bad); }
 .status-review { color: var(--warn); }
 .status-pending { color: var(--ink-3); font-weight: var(--w-medium); }
+.status-failed { color: var(--bad); }
+.row.failed .cell-lamp { opacity: 0.55; }
+.fail-note {
+  font-size: var(--fs-12);
+  color: var(--bad);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.seg-btn.seg-bad.on { color: var(--bad); }
+.inspector-fail {
+  margin: 0;
+  padding: calc(var(--u) * 2) calc(var(--u) * 4);
+  font-size: var(--fs-13);
+  line-height: 1.45;
+  color: var(--bad);
+  border-bottom: 1px solid var(--rule);
+}
 .status-glyph {
   flex: 0 0 auto;
 }

@@ -8,7 +8,7 @@ export function createJevClient(config: Config): JevClient {
   if (!config.typesafeApiKey) {
     throw new Error("TYPESAFE_API_KEY is not set. Add it to .env, or set MOCK_JEV=true to run without quota.");
   }
-  return new RealJevClient(config.typesafeApiKey, config.jevModel);
+  return new RealJevClient(config.typesafeApiKey, config.jevModel, config.jevTimeoutMs);
 }
 
 export type { JevClient } from "./types.js";

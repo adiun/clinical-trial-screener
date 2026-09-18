@@ -79,4 +79,22 @@ describe("Runner", () => {
     expect(stats.errors).toBe(0);
     expect(events.some((e) => e.type === "rate-limit")).toBe(true);
   }, 20_000);
+
+  it("with retries off, a 429 fails the note at once and is reported in the note event", async () => {
+    const { store, runner, events } = setup({ rateLimitRate: 1 });
+    const t0 = performance.now();
+    const stats = await runner.run(store.getProtocol(DEFAULT_PROTOCOL.id)!, { threshold: 0.6, trigger: "run", retries: false });
+    expect(performance.now() - t0).toBeLessThan(2_000); // no backoff waits
+    const notes = events.filter((e) => e.type === "note");
+    expect(notes).toHaveLength(60);
+    expect(notes.every((e) => e.type === "note" && typeof e.error === "string" && e.error.includes("429"))).toBe(true);
+    expect(events.some((e) => e.type === "rate-limit")).toBe(false);
+    expect(stats.errors).toBe(60);
+    expect(stats.rateLimitPauses).toBe(0);
+    expect(stats.retries).toBe(false);
+    expect(Object.keys(stats.failures)).toHaveLength(60);
+    expect(stats.apiCalls).toBe(0);
+    // Failures persist with the run so a reload still shows them.
+    expect(Object.keys(store.getRun(stats.runId)!.stats.failures)).toHaveLength(60);
+  });
 });
