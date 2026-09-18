@@ -72,12 +72,19 @@ with 70–500 ms of jitter, so the UI can be tuned without quota.
     "diagnoses": [{ "code": "E11.9", "name": "Type 2 diabetes mellitus", "onset": "2015-03-10", "active": true }],
     "meds": [{ "name": "metformin 1000 mg BID", "start": "2016-02-01", "stop": null }],
     "labs": [{ "name": "HbA1c", "value": 8.2, "unit": "%", "date": "2026-06-01" }],
-    "procedures": [], "familyHistory": [] } }
+    "procedures": [], "familyHistory": [],
+    "hardCases": [{ "type": "negation", "detail": "denies polyuria, polydipsia, or polyphagia" }] } }
 ```
 
-This repository does not generate notes. A 12-note handwritten fixture lives
-at `tests/fixtures/notes.sample.jsonl` for tests and local smoke runs
-(`NOTES_PATH=tests/fixtures/notes.sample.jsonl npm run import`).
+`hardCases` is optional generator metadata (which deliberately-hard facts the note was
+assigned — discontinued meds, historical findings, family-history confounders, stale or
+duplicate labs, negations) and is absent on hand-written fixtures; the screener itself
+never reads it.
+
+A 12-note handwritten fixture lives at `tests/fixtures/notes.sample.jsonl` for
+tests and local smoke runs (`NOTES_PATH=tests/fixtures/notes.sample.jsonl npm
+run import`). For a full 500-note dataset, generate one with `generate.ts` —
+see [Generating synthetic notes](#generating-synthetic-notes) below.
 
 ### Environment
 
@@ -91,6 +98,65 @@ at `tests/fixtures/notes.sample.jsonl` for tests and local smoke runs
 | `PORT` | `8787` | Backend port |
 | `NOTES_PATH` | `data/notes.jsonl` | Notes file for import |
 | `DB_PATH` | `data/screener.db` | SQLite file |
+| `ANTHROPIC_API_KEY` | — | Required by `generate.ts`; also usable by the Claude drawer instead of pasting a key |
+
+## Generating synthetic notes
+
+> **Synthetic data only.** `generate.ts` never reads or touches real patient
+> data, and its output must never be mixed with real patient data.
+
+```bash
+cp .env.example .env          # add ANTHROPIC_API_KEY
+npx tsx generate.ts --preview 5                          # print 5 sample notes with their truth, don't write a file
+npx tsx generate.ts --count 500 --seed 42 --out data/notes.jsonl
+npm run import                                            # load the result into the screener
+```
+
+| Flag | Default | Meaning |
+|---|---|---|
+| `--count <n>` | `500` | Number of notes to generate |
+| `--seed <n>` | `42` | RNG seed — same seed + count always produces identical truth |
+| `--out <path>` | `data/notes.jsonl` | Output JSONL path |
+| `--model <id>` | `claude-sonnet-5` | Model used to render note prose |
+| `--resume` | off | Skip ids already present in `--out` and append to it |
+| `--preview <n>` | — | Render `n` sample notes and print them with their truth to stdout; doesn't write `--out` |
+
+### How it works
+
+1. **Truth sampling (`generator/truth.ts`)** — deterministic, seeded, no LLM
+   call. Samples age, sex, a realistic set of comorbid chronic conditions
+   (T2DM, hypertension, CKD, CAD, COPD, depression, hyperlipidemia, obesity,
+   OSA, and more), consistent meds, correctly-united labs (HbA1c, eGFR,
+   creatinine, LDL, BP, BMI), a note format, and 0+ "hard cases" (a
+   discontinued med, a historical/inactive finding, a family-history
+   confounder, a stale lab, a duplicate lab, or an explicit negation) — all
+   recorded in `truth` so rendering and verification stay consistent. About a
+   third of patients are built to satisfy the bundled default T2D protocol
+   (`server/protocol.ts`) end to end; the rest fail exactly one of its
+   inclusion/exclusion criteria or have unrelated conditions, so a default run
+   yields a mixed eligible/ineligible split.
+2. **Rendering (`generator/render.ts`)** — turns each patient's truth into
+   note prose via Claude (default `claude-sonnet-5`, at `output_config.effort:
+   "medium"` — note-writing is high-volume and not reasoning-heavy, so medium
+   effort holds quality at lower cost; skipped automatically if `--model`
+   names a Haiku model, which rejects `effort`), batching 5 patients per
+   request with 5 batches in flight at once. The model is instructed to
+   include every fact in `truth`, invent nothing beyond it, weave in the
+   assigned hard cases naturally, vary voice/length/abbreviation density, and
+   add filler (social history, ROS boilerplate) that introduces no new
+   diagnosis, med, or lab. The SDK client retries 429s and 5xxs with backoff;
+   results are written to `--out` incrementally, so a killed run can be
+   continued with `--resume`.
+3. **Verification** — every note is checked two ways before being accepted: a
+   free deterministic pass (`generator/verify.ts`) confirms every lab value
+   and medication name appears in the text, and an LLM pass (Haiku 4.5) checks
+   whether the note introduces any diagnosis, medication, or lab not in
+   `truth`. A note that fails either check is regenerated, up to 2 retries;
+   notes that still fail are written anyway (best effort) and logged to
+   stderr so you can inspect or `--resume` them.
+
+At the end the CLI prints token counts and an estimated cost, split between
+the rendering model and the Haiku 4.5 verification pass.
 
 ## Scripts
 
@@ -98,7 +164,8 @@ at `tests/fixtures/notes.sample.jsonl` for tests and local smoke runs
 |---|---|
 | `npm run dev` | Backend (tsx watch) plus Vite |
 | `npm run import` | Load `data/notes.jsonl` into SQLite |
-| `npm test` | Vitest: rollup logic, cache invalidation, pool, question building, eval |
+| `npm run generate` | `generate.ts` — synthetic note generator (see above) |
+| `npm test` | Vitest: rollup logic, cache invalidation, pool, question building, eval, truth-sampling determinism, deterministic verifier |
 | `npm run typecheck` | Server and client type checks |
 | `npm run build` / `npm start` | Production build and static serving from the backend |
 
@@ -128,6 +195,15 @@ shared/
   rollup.ts        met / not met / uncertain and eligible / ineligible / review,
                    flips, weighted score. Pure; tested.
   hash.ts          Criterion hash over the question-bearing fields
+generate.ts        Synthetic note generator CLI (see above)
+generator/
+  rng.ts, dates.ts Seeded PRNG and reference-date helpers
+  data.ts          Diagnosis/med/lab/procedure/family-history pools
+  truth.ts         Deterministic truth sampling; tested
+  prompts.ts       Render/verify prompt + JSON-schema construction
+  render.ts        Batched, concurrent, resumable LLM rendering
+  verify.ts        Deterministic fact check + LLM hallucination check; tested
+  cost.ts, jsonl.ts, progress.ts   Pricing, incremental JSONL I/O, progress bar
 ```
 
 ### How a run works

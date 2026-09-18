@@ -8,5 +8,5 @@
     "types": ["node"],
     "lib": ["ES2022"]
   },
-  "include": ["server/**/*.ts", "shared/**/*.ts"]
+  "include": ["server/**/*.ts", "shared/**/*.ts", "generator/**/*.ts", "generate.ts"]
 }
