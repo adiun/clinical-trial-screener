@@ -353,6 +353,15 @@ export class Store {
     this.db.prepare(`DELETE FROM answers`).run();
   }
 
+  /** Drop every run and its decision log. Used by the full reset. */
+  clearRuns(): void {
+    const tx = this.db.transaction(() => {
+      this.db.prepare(`DELETE FROM decisions`).run();
+      this.db.prepare(`DELETE FROM runs`).run();
+    });
+    tx();
+  }
+
   // ---- runs & decisions --------------------------------------------------
 
   createRun(stats: RunStats, protocol: Protocol): void {

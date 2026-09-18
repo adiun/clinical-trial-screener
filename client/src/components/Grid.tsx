@@ -4,7 +4,7 @@ import { eligibilityScore } from "../../../shared/rollup.js";
 import { actions, flipsFor, snapshotsFor, useStore, type Filter, type SortKey } from "../store.js";
 import { Lamp, StatusField } from "./Lamp.js";
 
-const ROW_H = 28;
+const ROW_H = 32;
 const OVERSCAN = 8;
 const BLIP_MS = 420;
 const STATUS_ORDER: Record<NoteStatus, number> = { ineligible: 0, review: 1, eligible: 2, pending: 3 };

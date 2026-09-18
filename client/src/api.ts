@@ -1,7 +1,10 @@
 import type { AppState, ClaudeStatus, Criterion, CriterionInput, EvalReport, Protocol } from "../../shared/types.js";
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) } });
+  const res = await fetch(url, {
+    ...init,
+    headers: { ...(init?.body ? { "Content-Type": "application/json" } : {}), ...(init?.headers ?? {}) },
+  });
   const text = await res.text();
   const body = text ? (JSON.parse(text) as T & { error?: string }) : ({} as T & { error?: string });
   if (!res.ok) throw new ApiError(body.error ?? `${res.status} ${res.statusText}`, res.status);
@@ -26,6 +29,8 @@ export const api = {
   addCriterion: (input: CriterionInput) => request<Criterion>("/api/criteria", { method: "POST", body: JSON.stringify(input) }),
   deleteCriterion: (id: string) => request<{ ok: boolean }>(`/api/criteria/${encodeURIComponent(id)}`, { method: "DELETE" }),
   resetProtocol: () => request<Protocol>("/api/protocol/reset", { method: "POST" }),
+  /** Cold start: clears the answer cache, all runs, and restores the default protocol. */
+  resetAll: () => request<AppState>("/api/reset", { method: "POST" }),
   evalReport: (threshold: number) => request<EvalReport>(`/api/eval?threshold=${threshold}`),
   claudeStatus: () => request<ClaudeStatus>("/api/claude/status"),
   claudeCredentials: (apiKey: string | undefined, model: string | undefined) =>

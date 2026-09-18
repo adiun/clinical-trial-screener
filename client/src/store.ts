@@ -346,4 +346,11 @@ export const actions = {
   markCancelled() {
     set((s) => ({ run: { ...s.run, phase: "cancelled" } }));
   },
+  /** Apply a fresh server state after a full reset and drop every client-side trace of prior runs. */
+  resetAll(app: AppState) {
+    pendingNotes = [];
+    pendingOther = [];
+    hydrate(app);
+    set({ arrivals: {}, baseline: null, selectedNoteId: null, filter: "all", summary: null, summaryPending: false });
+  },
 };

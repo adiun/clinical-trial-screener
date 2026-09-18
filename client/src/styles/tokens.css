@@ -1,81 +1,87 @@
-/* Design tokens: the bedside monitor world.
+/* Design tokens: the bedside monitor world, warm edition.
    Day mode is the default scene (research office, daylight, external monitor);
-   night mode is the same instrument with the room lights off. */
+   night mode is the same instrument with the room lights off. The neutrals
+   are warm (paper, not slate) and the type is full-width and generous. */
 
 :root {
   /* type */
-  --font-label: "Barlow Semi Condensed", "Arial Narrow", system-ui, sans-serif;
-  --font-data: "Martian Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --data-stretch: 87.5%;
+  --font-label: "Figtree", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --data-stretch: 100%;
+  --w-body: 450;
+  --w-medium: 550;
+  --w-strong: 650;
 
   --fs-11: 0.6875rem;
   --fs-12: 0.75rem;
   --fs-13: 0.8125rem;
   --fs-14: 0.875rem;
+  --fs-15: 0.9375rem;
   --fs-16: 1rem;
   --fs-20: 1.25rem;
   --fs-28: 1.75rem;
 
   /* rhythm: a 4px module */
   --u: 4px;
-  --row-h: 28px;
-  --header-h: 64px;
-  --notice-h: 24px;
-  --rail-w: 360px;
-  --inspector-w: 440px;
-  --radius: 2px;
+  --row-h: 32px;
+  --header-h: 68px;
+  --notice-h: 26px;
+  --rail-w: 372px;
+  --inspector-w: 460px;
+  --radius: 6px;
+  --radius-sm: 4px;
 
   /* motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --t-fast: 150ms;
   --t-blip: 420ms;
 
-  /* light scene */
-  --bg: #f1f4f5;
-  --surface: #ffffff;
-  --surface-2: #e9edef;
-  --ink: #171e24;
-  --ink-2: #4c5761;
-  --ink-3: #5f6b74;
-  --rule: #d3dadf;
-  --rule-strong: #b8c2c8;
-  --accent: #0a6f83;
+  /* light scene: warm paper */
+  --bg: #f4f1eb;
+  --surface: #fffdf9;
+  --surface-2: #ece8e0;
+  --ink: #2a2622;
+  --ink-2: #5a534c;
+  --ink-3: #6b635d;
+  --rule: #e3ddd3;
+  --rule-strong: #cbc3b7;
+  --accent: #146964;
   --accent-ink: #ffffff;
-  --accent-soft: rgba(10, 111, 131, 0.12);
-  --ok: #157347;
-  --ok-soft: rgba(21, 115, 71, 0.14);
-  --bad: #b02f27;
-  --bad-soft: rgba(176, 47, 39, 0.12);
-  --warn: #835500;
-  --warn-soft: rgba(131, 85, 0, 0.16);
-  --lamp-off: #c2cad0;
+  --accent-soft: rgba(20, 105, 100, 0.12);
+  --ok: #226640;
+  --ok-soft: rgba(34, 102, 64, 0.13);
+  --bad: #a0392e;
+  --bad-soft: rgba(160, 57, 46, 0.12);
+  --warn: #8a5a05;
+  --warn-soft: rgba(196, 140, 40, 0.16);
+  --lamp-off: #cbc3b7;
   --on-status: #ffffff;
-  --selection: rgba(10, 111, 131, 0.22);
-  --shadow: 0 12px 32px -12px rgba(23, 30, 36, 0.28), 0 2px 6px -2px rgba(23, 30, 36, 0.16);
+  --selection: rgba(20, 105, 100, 0.22);
+  --shadow: 0 12px 32px -12px rgba(42, 38, 34, 0.28), 0 2px 6px -2px rgba(42, 38, 34, 0.16);
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --bg: #0a0d10;
-  --surface: #11161a;
-  --surface-2: #171d22;
-  --ink: #e6ebee;
-  --ink-2: #a3aeb6;
-  --ink-3: #7d8993;
-  --rule: #232b31;
-  --rule-strong: #34404a;
-  --accent: #3cc6dd;
-  --accent-ink: #061014;
-  --accent-soft: rgba(60, 198, 221, 0.16);
-  --ok: #4cc38a;
-  --ok-soft: rgba(76, 195, 138, 0.16);
-  --bad: #f0665c;
-  --bad-soft: rgba(240, 102, 92, 0.16);
-  --warn: #f0b323;
-  --warn-soft: rgba(240, 179, 35, 0.16);
-  --lamp-off: #2b353d;
+  --bg: #15120f;
+  --surface: #1d1916;
+  --surface-2: #242019;
+  --ink: #ede7df;
+  --ink-2: #b3aaa0;
+  --ink-3: #8c847b;
+  --rule: #302a25;
+  --rule-strong: #453d36;
+  --accent: #5ccbc4;
+  --accent-ink: #0f1a19;
+  --accent-soft: rgba(92, 203, 196, 0.16);
+  --ok: #6ccb95;
+  --ok-soft: rgba(108, 203, 149, 0.16);
+  --bad: #f2887a;
+  --bad-soft: rgba(242, 136, 122, 0.16);
+  --warn: #f0bf4f;
+  --warn-soft: rgba(240, 191, 79, 0.16);
+  --lamp-off: #3d352e;
   --on-status: #ffffff;
-  --selection: rgba(60, 198, 221, 0.3);
+  --selection: rgba(92, 203, 196, 0.3);
   --shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.7), 0 2px 8px -2px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }

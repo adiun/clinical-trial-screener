@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../api.js";
 import { actions, snapshotsFor, useStore } from "../store.js";
 import { Count } from "./Count.js";
-import { IconChart, IconKey, IconMoon, IconPlay, IconStop, IconSun } from "./icons.js";
+import { IconChart, IconKey, IconMoon, IconPlay, IconReset, IconStop, IconSun } from "./icons.js";
 
 function fmtMs(ms: number | null): string {
   if (ms === null) return "—";
@@ -64,6 +64,20 @@ export function Numerics() {
       }
     } catch (err) {
       actions.toast(err instanceof Error ? err.message : String(err), "error");
+    }
+  };
+
+  const [resetting, setResetting] = useState(false);
+  const onReset = async () => {
+    setResetting(true);
+    try {
+      const app = await api.resetAll();
+      actions.resetAll(app);
+      actions.toast("Reset: answer cache and run history cleared, default protocol restored. The next run is cold.");
+    } catch (err) {
+      actions.toast(err instanceof Error ? err.message : String(err), "error");
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -148,6 +162,10 @@ export function Numerics() {
         <button className={`iconbtn${drawer === "claude" ? " active" : ""}`} onClick={() => actions.setDrawer("claude")} aria-pressed={drawer === "claude"} title="Claude credentials">
           <IconKey />
           <span>Claude</span>
+        </button>
+        <button className="iconbtn danger" onClick={onReset} disabled={resetting} title="Reset to a cold start: clear the answer cache and run history, restore the default protocol. Notes and Claude key are kept." aria-label="Reset cache, runs, and protocol">
+          <IconReset />
+          <span>{resetting ? "Resetting…" : "Reset"}</span>
         </button>
         <button className="iconbtn" onClick={() => actions.setTheme(theme === "dark" ? "light" : "dark")} title={theme === "dark" ? "Switch to day mode" : "Switch to night mode"} aria-label={theme === "dark" ? "Switch to day mode" : "Switch to night mode"}>
           {theme === "dark" ? <IconSun /> : <IconMoon />}

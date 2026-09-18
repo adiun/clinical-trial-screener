@@ -8,7 +8,7 @@ import { createJevClient } from "./jev/index.js";
 import { SseHub } from "./sse.js";
 import { Runner } from "./runner.js";
 import { ensureDefaultProtocol, readNotesJsonl } from "./import.js";
-import { DEFAULT_PROTOCOL_ID } from "./protocol.js";
+import { DEFAULT_CRITERIA, DEFAULT_PROTOCOL, DEFAULT_PROTOCOL_ID } from "./protocol.js";
 import { buildEvalReport } from "./eval.js";
 import * as claude from "./claude.js";
 import { flippedNotes, noteStatus } from "../shared/rollup.js";
@@ -69,7 +69,7 @@ function currentAnswers(): Record<string, Record<string, Answer>> {
 
 // ---- state -----------------------------------------------------------------
 
-app.get("/api/state", async (): Promise<AppState> => {
+function appState(): AppState {
   const recent = store.recentRuns(2);
   return {
     protocol: protocol(),
@@ -83,7 +83,9 @@ app.get("/api/state", async (): Promise<AppState> => {
     concurrency: config.jevConcurrency,
     notesLoaded: store.noteCount() > 0,
   };
-});
+}
+
+app.get("/api/state", async (): Promise<AppState> => appState());
 
 app.get("/api/events", (req, reply) => {
   hub.add(reply.raw);
@@ -145,14 +147,32 @@ app.delete<{ Params: { id: string } }>("/api/criteria/:id", async (req) => {
   return { ok: true };
 });
 
-app.post("/api/protocol/reset", async () => {
-  const { DEFAULT_CRITERIA, DEFAULT_PROTOCOL } = await import("./protocol.js");
+function restoreDefaultProtocol() {
   store.upsertProtocol({ ...DEFAULT_PROTOCOL, compiledJson: null });
   store.db.prepare(`UPDATE protocols SET compiled_json = NULL WHERE id = ?`).run(DEFAULT_PROTOCOL.id);
   store.replaceCriteria(DEFAULT_PROTOCOL.id, DEFAULT_CRITERIA);
   const p = protocol();
   hub.send({ type: "protocol", protocol: p });
   return p;
+}
+
+app.post("/api/protocol/reset", async () => restoreDefaultProtocol());
+
+/**
+ * Back to a cold start: cancel any run in flight, drop the answer cache, every
+ * run and its decision log, and restore the default protocol. Notes and Claude
+ * credentials are kept. The next run measures true end-to-end latency.
+ */
+app.post("/api/reset", async (): Promise<AppState> => {
+  if (runner.running) {
+    runner.cancel();
+    // Let the cancelled run flush its final events before the wipe.
+    await new Promise((r) => setTimeout(r, 50));
+  }
+  store.clearAnswers();
+  store.clearRuns();
+  restoreDefaultProtocol();
+  return appState();
 });
 
 // ---- runs -------------------------------------------------------------------

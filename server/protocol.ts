@@ -14,6 +14,9 @@ export const DEFAULT_PROTOCOL = {
     "Adults with type 2 diabetes on stable metformin with inadequate glycemic control, adequate renal function, and no GLP-1 class contraindications.",
 };
 
+const AGE_MIN = 18;
+const AGE_MAX = 75;
+
 export const DEFAULT_CRITERIA: CriterionInput[] = [
   {
     id: "c_t2d",
@@ -29,12 +32,12 @@ export const DEFAULT_CRITERIA: CriterionInput[] = [
   },
   {
     id: "c_age",
-    name: "Age 18 to 75",
+    name: `Age ${AGE_MIN} to ${AGE_MAX}`,
     kind: "inclusion",
     primitive: "noul",
-    question: "is the patient's age at least 18 years and at most 75 years? Use `patient.age` when present, otherwise the age stated in the note.",
-    trueDescription: "Age is stated and falls between 18 and 75 inclusive.",
-    falseDescription: "Age is stated and is under 18 or over 75, or no age is stated anywhere.",
+    question: `is the patient's age at least ${AGE_MIN} years and at most ${AGE_MAX} years? Use \`patient.age\` when present, otherwise the age stated in the note.`,
+    trueDescription: `Age is stated and falls between ${AGE_MIN} and ${AGE_MAX} inclusive.`,
+    falseDescription: `Age is stated and is under ${AGE_MIN} or over ${AGE_MAX}, or no age is stated anywhere.`,
     levels: null,
     metLevels: null,
     weight: 0.6,

@@ -91,4 +91,28 @@ describe("decision log and replay", () => {
     expect(rows).toHaveLength(1);
     expect(rows[0]).toMatchObject({ noteId: "n1", criterionId: c.id, p: 0.9, threshold: 0.6, question: c.question });
   });
+
+  it("clearRuns drops runs and decisions but keeps notes; clearAnswers empties the cache", () => {
+    const store = seeded();
+    const protocol = store.getProtocol(DEFAULT_PROTOCOL.id)!;
+    const c = protocol.criteria[0]!;
+    const stats = {
+      runId: "run1", startedAt: "t", finishedAt: "t2", elapsedMs: 5, noteCount: 2, apiCalls: 1, cachedNotes: 0,
+      p50: 1, p95: 1, p99: 1, inputTokens: 0, estimatedCostUsd: 0, model: "m", mode: "mock" as const,
+      trigger: "run" as const, threshold: 0.6, rateLimitPauses: 0, rateLimitHeaders: {}, errors: 0, summary: null,
+    };
+    store.createRun(stats, protocol);
+    store.finishRun(stats, {});
+    store.logDecisions([{ runId: "run1", noteId: "n1", criterionId: c.id, criterionHash: c.hash, question: c.question, p: 0.9, c: 0.8, threshold: 0.6, latencyMs: 12 }]);
+    store.putAnswers([{ noteId: "n1", answer: answer(c.hash), model: "m", runId: "run1" }]);
+
+    store.clearAnswers();
+    store.clearRuns();
+
+    expect(store.loadAnswers([c.hash]).size).toBe(0);
+    expect(store.recentRuns()).toHaveLength(0);
+    expect(store.getRun("run1")).toBeNull();
+    expect(store.decisionsForRun("run1")).toHaveLength(0);
+    expect(store.noteCount()).toBe(2);
+  });
 });

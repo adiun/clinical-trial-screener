@@ -4,6 +4,7 @@ import { api } from "../api.js";
 import { actions, getState, useStore } from "../store.js";
 import { CriterionRow } from "./CriterionRow.js";
 import { IconBraces, IconPlus, IconReset, IconSparkle } from "./icons.js";
+import { CANNED_PROMPTS } from "../prompts.js";
 
 const EDIT_DEBOUNCE_MS = 500;
 
@@ -12,7 +13,14 @@ export function Rail() {
   const claude = useStore((s) => s.claude);
   const drawer = useStore((s) => s.drawer);
   const [description, setDescription] = useState("");
+  const [promptId, setPromptId] = useState("");
   const [compiling, setCompiling] = useState(false);
+
+  const pickPrompt = (id: string) => {
+    setPromptId(id);
+    const p = CANNED_PROMPTS.find((c) => c.id === id);
+    if (p) setDescription(p.text);
+  };
   const debounce = useRef<number | null>(null);
 
   // Any committed edit re-asks only the changed criterion (the cache handles
@@ -95,15 +103,28 @@ export function Rail() {
   return (
     <aside className="rail" aria-label="Protocol">
       <section className="compiler">
-        <label className="label" htmlFor="describe">
-          Describe the trial in plain English
-        </label>
+        <div className="compiler-head">
+          <label className="label" htmlFor="describe">
+            Describe the trial in plain English
+          </label>
+          <select id="canned-prompt" className="prompt-pick" value={promptId} onChange={(e) => pickPrompt(e.target.value)} aria-label="Load an example trial description" title="Load an example trial description">
+            <option value="">Examples…</option>
+            {CANNED_PROMPTS.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.label}
+              </option>
+            ))}
+          </select>
+        </div>
         <textarea
           id="describe"
           className="describe"
           rows={3}
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => {
+            setDescription(e.target.value);
+            setPromptId("");
+          }}
           placeholder="Adults 40–70 with type 2 diabetes on metformin, HbA1c between 7 and 10, eGFR at least 45, no pancreatitis, not on insulin…"
           spellCheck={false}
         />

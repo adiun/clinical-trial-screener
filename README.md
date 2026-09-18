@@ -35,7 +35,13 @@ watch it happen.
   calibration plot (stated confidence vs observed accuracy).
 - **Claude** as compiler: describe the trial in plain English and Claude
   produces typed criteria as JSON; after a run it can write a short summary
-  from aggregate counts only. It never sees note text.
+  from aggregate counts only. It never sees note text. The **Examples…**
+  picker above the description box loads one of eleven canned trial
+  descriptions (`client/src/prompts.ts`) so you can switch prompts quickly.
+- **Reset** (header, next to Run) returns the app to a cold start: it cancels
+  any run in flight, empties the answer cache, deletes every run and its
+  decision log, and restores the default protocol. Notes and the Claude key
+  are kept. Use it before timing a run so no answer comes from cache.
 
 ## Setup
 
@@ -177,7 +183,8 @@ client/            Vite + React 19. External store with useSyncExternalStore;
                    Rows are virtualized by hand (28px rows, overscan 8).
 server/
   index.ts         Fastify routes: /api/state, /api/events (SSE), /api/run,
-                   /api/criteria, /api/eval, /api/claude/*, /api/runs/:id/*
+                   /api/criteria, /api/eval, /api/claude/*, /api/runs/:id/*,
+                   /api/reset (cold start)
   runner.ts        Run orchestration: cache lookup, bounded pool, SSE fan-out,
                    decision log, latency percentiles, 429 back-off
   pool.ts          Concurrency pool with a shared pause gate
