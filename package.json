@@ -1,0 +1,37 @@
+{
+  "name": "clinical-trial-eligibility",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Clinical trial eligibility screener showcasing TypeSafe's Jev model. Synthetic data only.",
+  "engines": { "node": ">=20.6" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:server": "node --import tsx --watch server/index.ts",
+    "dev:client": "vite",
+    "build": "tsc -p tsconfig.server.json && vite build",
+    "start": "node dist/server/index.js",
+    "import": "node --import tsx server/import.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.server.json --noEmit && tsc -p tsconfig.client.json --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
+    "@typesafe-ai/sdk": "^0.6.0",
+    "better-sqlite3": "^13.0.3",
+    "fastify": "^5.12.5",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.0",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  }
+}

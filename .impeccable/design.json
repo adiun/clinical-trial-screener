@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-18T10:06:46.753Z",
+  "title": "Design System: Eligibility Screener",
+  "extensions": {
+    "colorMeta": {
+      "channel-cyan": {
+        "role": "primary",
+        "displayName": "Channel Cyan",
+        "canonical": "oklch(50% 0.087 216.5)",
+        "tonalRamp": [
+          "oklch(15% 0.047 216.5)",
+          "oklch(25% 0.065 216.5)",
+          "oklch(35% 0.083 216.5)",
+          "oklch(45% 0.087 216.5)",
+          "oklch(55% 0.087 216.5)",
+          "oklch(65% 0.087 216.5)",
+          "oklch(75% 0.087 216.5)",
+          "oklch(85% 0.087 216.5)"
+        ]
+      },
+      "channel-cyan-night": {
+        "role": "primary",
+        "displayName": "Channel Cyan (night)",
+        "canonical": "oklch(76.4% 0.118 211.2)",
+        "tonalRamp": [
+          "oklch(15% 0.047 211.2)",
+          "oklch(25% 0.065 211.2)",
+          "oklch(35% 0.083 211.2)",
+          "oklch(45% 0.101 211.2)",
+          "oklch(55% 0.118 211.2)",
+          "oklch(65% 0.118 211.2)",
+          "oklch(75% 0.118 211.2)",
+          "oklch(85% 0.118 211.2)"
+        ]
+      },
+      "met-green": {
+        "role": "secondary",
+        "displayName": "Met Green",
+        "canonical": "oklch(49.2% 0.109 157)",
+        "tonalRamp": [
+          "oklch(15% 0.047 157)",
+          "oklch(25% 0.065 157)",
+          "oklch(35% 0.083 157)",
+          "oklch(45% 0.101 157)",
+          "oklch(55% 0.109 157)",
+          "oklch(65% 0.109 157)",
+          "oklch(75% 0.109 157)",
+          "oklch(85% 0.109 157)"
+        ]
+      },
+      "met-green-night": {
+        "role": "secondary",
+        "displayName": "Met Green (night)",
+        "canonical": "oklch(73.5% 0.136 159.3)",
+        "tonalRamp": [
+          "oklch(15% 0.047 159.3)",
+          "oklch(25% 0.065 159.3)",
+          "oklch(35% 0.083 159.3)",
+          "oklch(45% 0.101 159.3)",
+          "oklch(55% 0.119 159.3)",
+          "oklch(65% 0.136 159.3)",
+          "oklch(75% 0.136 159.3)",
+          "oklch(85% 0.136 159.3)"
+        ]
+      },
+      "alarm-red": {
+        "role": "secondary",
+        "displayName": "Alarm Red",
+        "canonical": "oklch(50.5% 0.167 28.2)",
+        "tonalRamp": [
+          "oklch(15% 0.047 28.2)",
+          "oklch(25% 0.065 28.2)",
+          "oklch(35% 0.083 28.2)",
+          "oklch(45% 0.101 28.2)",
+          "oklch(55% 0.119 28.2)",
+          "oklch(65% 0.137 28.2)",
+          "oklch(75% 0.155 28.2)",
+          "oklch(85% 0.167 28.2)"
+        ]
+      },
+      "alarm-red-night": {
+        "role": "secondary",
+        "displayName": "Alarm Red (night)",
+        "canonical": "oklch(68.1% 0.172 26.8)",
+        "tonalRamp": [
+          "oklch(15% 0.047 26.8)",
+          "oklch(25% 0.065 26.8)",
+          "oklch(35% 0.083 26.8)",
+          "oklch(45% 0.101 26.8)",
+          "oklch(55% 0.119 26.8)",
+          "oklch(65% 0.137 26.8)",
+          "oklch(75% 0.155 26.8)",
+          "oklch(85% 0.172 26.8)"
+        ]
+      },
+      "review-amber": {
+        "role": "secondary",
+        "displayName": "Review Amber",
+        "canonical": "oklch(48.9% 0.104 73.1)",
+        "tonalRamp": [
+          "oklch(15% 0.047 73.1)",
+          "oklch(25% 0.065 73.1)",
+          "oklch(35% 0.083 73.1)",
+          "oklch(45% 0.101 73.1)",
+          "oklch(55% 0.104 73.1)",
+          "oklch(65% 0.104 73.1)",
+          "oklch(75% 0.104 73.1)",
+          "oklch(85% 0.104 73.1)"
+        ]
+      },
+      "review-amber-night": {
+        "role": "secondary",
+        "displayName": "Review Amber (night)",
+        "canonical": "oklch(80.2% 0.158 82.4)",
+        "tonalRamp": [
+          "oklch(15% 0.047 82.4)",
+          "oklch(25% 0.065 82.4)",
+          "oklch(35% 0.083 82.4)",
+          "oklch(45% 0.101 82.4)",
+          "oklch(55% 0.119 82.4)",
+          "oklch(65% 0.137 82.4)",
+          "oklch(75% 0.155 82.4)",
+          "oklch(85% 0.158 82.4)"
+        ]
+      },
+      "daylight-ground": {
+        "role": "neutral",
+        "displayName": "Daylight Ground",
+        "canonical": "oklch(96.5% 0.003 219.5)",
+        "tonalRamp": [
+          "oklch(15% 0.003 219.5)",
+          "oklch(25% 0.003 219.5)",
+          "oklch(35% 0.003 219.5)",
+          "oklch(45% 0.003 219.5)",
+          "oklch(55% 0.003 219.5)",
+          "oklch(65% 0.003 219.5)",
+          "oklch(75% 0.003 219.5)",
+          "oklch(85% 0.003 219.5)"
+        ]
+      },
+      "night-ground": {
+        "role": "neutral",
+        "displayName": "Night Ground",
+        "canonical": "oklch(15.7% 0.008 248.4)",
+        "tonalRamp": [
+          "oklch(15% 0.008 248.4)",
+          "oklch(25% 0.008 248.4)",
+          "oklch(35% 0.008 248.4)",
+          "oklch(45% 0.008 248.4)",
+          "oklch(55% 0.008 248.4)",
+          "oklch(65% 0.008 248.4)",
+          "oklch(75% 0.008 248.4)",
+          "oklch(85% 0.008 248.4)"
+        ]
+      },
+      "panel-white": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "oklch(100% 0 89.9)",
+        "tonalRamp": [
+          "oklch(15% 0 89.9)",
+          "oklch(25% 0 89.9)",
+          "oklch(35% 0 89.9)",
+          "oklch(45% 0 89.9)",
+          "oklch(55% 0 89.9)",
+          "oklch(65% 0 89.9)",
+          "oklch(75% 0 89.9)",
+          "oklch(85% 0 89.9)"
+        ]
+      },
+      "panel-night": {
+        "role": "neutral",
+        "displayName": "Panel Night",
+        "canonical": "oklch(19.7% 0.011 242.4)",
+        "tonalRamp": [
+          "oklch(15% 0.011 242.4)",
+          "oklch(25% 0.011 242.4)",
+          "oklch(35% 0.011 242.4)",
+          "oklch(45% 0.011 242.4)",
+          "oklch(55% 0.011 242.4)",
+          "oklch(65% 0.011 242.4)",
+          "oklch(75% 0.011 242.4)",
+          "oklch(85% 0.011 242.4)"
+        ]
+      },
+      "rail-gray": {
+        "role": "neutral",
+        "displayName": "Rail Gray",
+        "canonical": "oklch(94.4% 0.005 228.8)",
+        "tonalRamp": [
+          "oklch(15% 0.005 228.8)",
+          "oklch(25% 0.005 228.8)",
+          "oklch(35% 0.005 228.8)",
+          "oklch(45% 0.005 228.8)",
+          "oklch(55% 0.005 228.8)",
+          "oklch(65% 0.005 228.8)",
+          "oklch(75% 0.005 228.8)",
+          "oklch(85% 0.005 228.8)"
+        ]
+      },
+      "rail-night": {
+        "role": "neutral",
+        "displayName": "Rail Night",
+        "canonical": "oklch(22.7% 0.013 243.5)",
+        "tonalRamp": [
+          "oklch(15% 0.013 243.5)",
+          "oklch(25% 0.013 243.5)",
+          "oklch(35% 0.013 243.5)",
+          "oklch(45% 0.013 243.5)",
+          "oklch(55% 0.013 243.5)",
+          "oklch(65% 0.013 243.5)",
+          "oklch(75% 0.013 243.5)",
+          "oklch(85% 0.013 243.5)"
+        ]
+      },
+      "slate-ink": {
+        "role": "neutral",
+        "displayName": "Slate Ink",
+        "canonical": "oklch(23.1% 0.016 244.4)",
+        "tonalRamp": [
+          "oklch(15% 0.016 244.4)",
+          "oklch(25% 0.016 244.4)",
+          "oklch(35% 0.016 244.4)",
+          "oklch(45% 0.016 244.4)",
+          "oklch(55% 0.016 244.4)",
+          "oklch(65% 0.016 244.4)",
+          "oklch(75% 0.016 244.4)",
+          "oklch(85% 0.016 244.4)"
+        ]
+      },
+      "slate-ink-night": {
+        "role": "neutral",
+        "displayName": "Slate Ink (night)",
+        "canonical": "oklch(93.7% 0.007 233.6)",
+        "tonalRamp": [
+          "oklch(15% 0.007 233.6)",
+          "oklch(25% 0.007 233.6)",
+          "oklch(35% 0.007 233.6)",
+          "oklch(45% 0.007 233.6)",
+          "oklch(55% 0.007 233.6)",
+          "oklch(65% 0.007 233.6)",
+          "oklch(75% 0.007 233.6)",
+          "oklch(85% 0.007 233.6)"
+        ]
+      },
+      "slate-ink-2": {
+        "role": "neutral",
+        "displayName": "Slate Ink 2",
+        "canonical": "oklch(45.1% 0.021 245.7)",
+        "tonalRamp": [
+          "oklch(15% 0.021 245.7)",
+          "oklch(25% 0.021 245.7)",
+          "oklch(35% 0.021 245.7)",
+          "oklch(45% 0.021 245.7)",
+          "oklch(55% 0.021 245.7)",
+          "oklch(65% 0.021 245.7)",
+          "oklch(75% 0.021 245.7)",
+          "oklch(85% 0.021 245.7)"
+        ]
+      },
+      "slate-ink-3": {
+        "role": "neutral",
+        "displayName": "Slate Ink 3",
+        "canonical": "oklch(52.1% 0.02 240.3)",
+        "tonalRamp": [
+          "oklch(15% 0.02 240.3)",
+          "oklch(25% 0.02 240.3)",
+          "oklch(35% 0.02 240.3)",
+          "oklch(45% 0.02 240.3)",
+          "oklch(55% 0.02 240.3)",
+          "oklch(65% 0.02 240.3)",
+          "oklch(75% 0.02 240.3)",
+          "oklch(85% 0.02 240.3)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(88.4% 0.01 238.5)",
+        "tonalRamp": [
+          "oklch(15% 0.01 238.5)",
+          "oklch(25% 0.01 238.5)",
+          "oklch(35% 0.01 238.5)",
+          "oklch(45% 0.01 238.5)",
+          "oklch(55% 0.01 238.5)",
+          "oklch(65% 0.01 238.5)",
+          "oklch(75% 0.01 238.5)",
+          "oklch(85% 0.01 238.5)"
+        ]
+      },
+      "hairline-strong": {
+        "role": "neutral",
+        "displayName": "Hairline Strong",
+        "canonical": "oklch(80.8% 0.014 233.8)",
+        "tonalRamp": [
+          "oklch(15% 0.014 233.8)",
+          "oklch(25% 0.014 233.8)",
+          "oklch(35% 0.014 233.8)",
+          "oklch(45% 0.014 233.8)",
+          "oklch(55% 0.014 233.8)",
+          "oklch(65% 0.014 233.8)",
+          "oklch(75% 0.014 233.8)",
+          "oklch(85% 0.014 233.8)"
+        ]
+      },
+      "hairline-night": {
+        "role": "neutral",
+        "displayName": "Hairline (night)",
+        "canonical": "oklch(28.4% 0.016 240.6)",
+        "tonalRamp": [
+          "oklch(15% 0.016 240.6)",
+          "oklch(25% 0.016 240.6)",
+          "oklch(35% 0.016 240.6)",
+          "oklch(45% 0.016 240.6)",
+          "oklch(55% 0.016 240.6)",
+          "oklch(65% 0.016 240.6)",
+          "oklch(75% 0.016 240.6)",
+          "oklch(85% 0.016 240.6)"
+        ]
+      },
+      "lamp-off": {
+        "role": "neutral",
+        "displayName": "Lamp Off",
+        "canonical": "oklch(83.5% 0.012 239.9)",
+        "tonalRamp": [
+          "oklch(15% 0.012 239.9)",
+          "oklch(25% 0.012 239.9)",
+          "oklch(35% 0.012 239.9)",
+          "oklch(45% 0.012 239.9)",
+          "oklch(55% 0.012 239.9)",
+          "oklch(65% 0.012 239.9)",
+          "oklch(75% 0.012 239.9)",
+          "oklch(85% 0.012 239.9)"
+        ]
+      },
+      "lamp-off-night": {
+        "role": "neutral",
+        "displayName": "Lamp Off (night)",
+        "canonical": "oklch(32.3% 0.02 242.4)",
+        "tonalRamp": [
+          "oklch(15% 0.02 242.4)",
+          "oklch(25% 0.02 242.4)",
+          "oklch(35% 0.02 242.4)",
+          "oklch(45% 0.02 242.4)",
+          "oklch(55% 0.02 242.4)",
+          "oklch(65% 0.02 242.4)",
+          "oklch(75% 0.02 242.4)",
+          "oklch(85% 0.02 242.4)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "readout": {
+        "displayName": "Readout",
+        "purpose": "The three counts in the numerics strip; digits cross-fade on change."
+      },
+      "value": {
+        "displayName": "Value",
+        "purpose": "The confidence-limit value beside the slider."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Every id, timer, latency, probability, cost, hash, and code value; Martian Mono narrowed to 87.5% with tabular figures."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Brand name, protocol name, inspector id, drawer title."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default text; 1.5 line-height and 72ch max in note text and drawer notes."
+      },
+      "secondary": {
+        "displayName": "Secondary",
+        "purpose": "Criterion questions and descriptions, verdict questions, tables."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Every button, segment, switch, and select label."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase tracked label above a readout, field, or grid column, as a monitor prints channel names."
+      },
+      "tag": {
+        "displayName": "Tag",
+        "purpose": "INCL / EXCL kind tags, primitive tags, the mode tag; 1px outlined."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow (day)",
+        "value": "0 12px 32px -12px rgba(23, 30, 36, 0.28), 0 2px 6px -2px rgba(23, 30, 36, 0.16)",
+        "purpose": "The inspector panel's lift; the only shadow in the system. The build also applies it to the toast."
+      },
+      {
+        "name": "shadow (night)",
+        "value": "0 16px 40px -12px rgba(0, 0, 0, 0.7), 0 2px 8px -2px rgba(0, 0, 0, 0.5)",
+        "purpose": "Night-scene value of the same token."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The only easing curve; every blip, cross-fade, panel entry, and state transition uses it."
+      },
+      {
+        "name": "t-blip",
+        "value": "420ms",
+        "purpose": "Arrival blip on a lamp (cyan flash, scale 1.35 to 1) and readout digit cross-fade (rise in / lift out 45%)."
+      },
+      {
+        "name": "t-fast",
+        "value": "150ms",
+        "purpose": "Control state color, lamp color/opacity, disclose chevron rotation, switch thumb travel."
+      },
+      {
+        "name": "stale-dim",
+        "value": "opacity 0.55",
+        "purpose": "Column dim: lamps whose criterion changed since they were asked, until the channel refills."
+      },
+      {
+        "name": "sweep-travel",
+        "value": "transform 90ms linear",
+        "purpose": "Erase bar tracking run progress down the visible rows."
+      },
+      {
+        "name": "sweep-fade",
+        "value": "opacity 600ms ease-out 300ms",
+        "purpose": "Erase bar fading after the run completes."
+      },
+      {
+        "name": "panel-entry",
+        "value": "200ms ease-out",
+        "purpose": "Inspector slides 24px from the right; drawers and toasts drop 12px."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; transitions 80ms; sweep opacity 1ms",
+        "purpose": "States still change under prefers-reduced-motion; nothing travels."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "telemetry-3",
+        "value": "1320px",
+        "purpose": "Third telemetry item hides."
+      },
+      {
+        "name": "telemetry-2",
+        "value": "1180px",
+        "purpose": "Second telemetry item, switch text, and icon-button captions hide."
+      },
+      {
+        "name": "stack",
+        "value": "900px",
+        "purpose": "Strip wraps to 56px cells; rail moves below the 72vh grid; overlays go full-viewport."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Run Button",
+      "kind": "button",
+      "refersTo": "button-run",
+      "description": "The cyan Run control at the strip's right end; inverts to an outlined Stop while running.",
+      "html": "<button class=\"ds-runbtn\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4.5 3.2v9.6l8-4.8z\" fill=\"currentColor\"/></svg>Run</button> <button class=\"ds-runbtn ds-running\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><rect x=\"3.5\" y=\"3.5\" width=\"9\" height=\"9\" fill=\"currentColor\"/></svg>Stop</button>",
+      "css": ".ds-runbtn { display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 14px 0 10px; border-radius:var(--radius,2px); font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-13,0.8125rem); font-weight:600; letter-spacing:0.02em; background:var(--accent,#0a6f83); color:var(--accent-ink,#fff); border:1px solid var(--accent,#0a6f83); cursor:pointer; transition:background-color 150ms, color 150ms, border-color 150ms; } .ds-runbtn:hover { filter:brightness(1.08); } .ds-runbtn:focus-visible { outline:2px solid var(--accent,#0a6f83); outline-offset:1px; } .ds-runbtn.ds-running { background:var(--surface,#fff); color:var(--ink,#171e24); border-color:var(--rule-strong,#b8c2c8); }"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Outlined 28px control with a 16px authored icon and optional caption; active state washes cyan.",
+      "html": "<button class=\"ds-iconbtn\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.5 13.5h11M4 11V7M7 11V4M10 11V8.5M13 11V5.5\"/></svg><span>Eval</span></button> <button class=\"ds-iconbtn ds-active\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13 9.5A5.5 5.5 0 0 1 6.5 3a5.5 5.5 0 1 0 6.5 6.5z\"/></svg></button>",
+      "css": ".ds-iconbtn { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 10px; border-radius:var(--radius,2px); font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-12,0.75rem); font-weight:600; letter-spacing:0.02em; color:var(--ink-2,#4c5761); background:var(--surface,#fff); border:1px solid var(--rule,#d3dadf); cursor:pointer; transition:background-color 150ms, color 150ms, border-color 150ms; } .ds-iconbtn:hover { color:var(--ink,#171e24); border-color:var(--rule-strong,#b8c2c8); } .ds-iconbtn.ds-active { color:var(--accent,#0a6f83); border-color:var(--accent,#0a6f83); background:var(--accent-soft,rgba(10,111,131,0.12)); } .ds-iconbtn:focus-visible { outline:2px solid var(--accent,#0a6f83); outline-offset:1px; }"
+    },
+    {
+      "name": "Text Button",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Bare cyan text action (Add criterion, Reset); underlines on hover.",
+      "html": "<button class=\"ds-textbtn\">+ Add criterion</button>",
+      "css": ".ds-textbtn { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 4px; border:1px solid transparent; border-radius:var(--radius,2px); background:none; font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-12,0.75rem); font-weight:600; letter-spacing:0.02em; color:var(--accent,#0a6f83); cursor:pointer; } .ds-textbtn:hover { text-decoration:underline; text-underline-offset:3px; } .ds-textbtn:focus-visible { outline:2px solid var(--accent,#0a6f83); outline-offset:1px; }"
+    },
+    {
+      "name": "Segmented Filter",
+      "kind": "nav",
+      "refersTo": "segment",
+      "description": "The grid's status filter; the on segment inverts to ink on panel.",
+      "html": "<div class=\"ds-seg\"><button class=\"ds-seg-btn ds-on\">All</button><button class=\"ds-seg-btn\">Eligible</button><button class=\"ds-seg-btn\">Ineligible</button><button class=\"ds-seg-btn\">Review</button><button class=\"ds-seg-btn\">Flipped</button></div>",
+      "css": ".ds-seg { display:inline-flex; border:1px solid var(--rule,#d3dadf); border-radius:var(--radius,2px); overflow:hidden; } .ds-seg-btn { display:inline-flex; align-items:center; height:26px; padding:0 10px; border:0; border-right:1px solid var(--rule,#d3dadf); border-radius:0; background:var(--surface,#fff); font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-12,0.75rem); font-weight:600; letter-spacing:0.02em; color:var(--ink-2,#4c5761); cursor:pointer; transition:background-color 150ms, color 150ms; } .ds-seg-btn:last-child { border-right:0; } .ds-seg-btn:hover { color:var(--ink,#171e24); } .ds-seg-btn.ds-on { background:var(--ink,#171e24); color:var(--surface,#fff); } .ds-seg-btn:focus-visible { outline:2px solid var(--accent,#0a6f83); outline-offset:-2px; }"
+    },
+    {
+      "name": "Kind Tag",
+      "kind": "chip",
+      "refersTo": "tag-kind",
+      "description": "Outlined 10px uppercase tag: INCL green, EXCL red, primitive cyan.",
+      "html": "<span class=\"ds-tag ds-tag-inclusion\">INCL</span> <span class=\"ds-tag ds-tag-exclusion\">EXCL</span> <span class=\"ds-tag ds-tag-prim\">NOUL</span> <span class=\"ds-tag\">JEV MOCK</span>",
+      "css": ".ds-tag { display:inline-block; font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:0.625rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; line-height:1; padding:2px 5px; border-radius:var(--radius,2px); border:1px solid var(--rule-strong,#b8c2c8); color:var(--ink-2,#4c5761); } .ds-tag-inclusion { color:var(--ok,#157347); border-color:var(--ok,#157347); } .ds-tag-exclusion { color:var(--bad,#b02f27); border-color:var(--bad,#b02f27); } .ds-tag-prim { color:var(--accent,#0a6f83); border-color:var(--accent,#0a6f83); }"
+    },
+    {
+      "name": "Describe Field",
+      "kind": "input",
+      "refersTo": "field-describe",
+      "description": "The plain-English protocol box with its tracked label above; border turns cyan on focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-label\">Describe the trial in plain English</span><textarea class=\"ds-describe\" placeholder=\"Adults 40-70 with type 2 diabetes on metformin...\"></textarea></label>",
+      "css": ".ds-field { display:flex; flex-direction:column; gap:8px; width:320px; } .ds-label { font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-11,0.6875rem); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-3,#5f6b74); } .ds-describe { width:100%; min-height:64px; resize:vertical; padding:8px 10px; border:1px solid var(--rule,#d3dadf); border-radius:var(--radius,2px); background:var(--surface,#fff); color:var(--ink,#171e24); font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-13,0.8125rem); line-height:1.4; } .ds-describe::placeholder { color:var(--ink-3,#5f6b74); } .ds-describe:focus { outline:none; border-color:var(--accent,#0a6f83); }"
+    },
+    {
+      "name": "Alarm Limit Slider",
+      "kind": "input",
+      "refersTo": "value",
+      "description": "Confidence threshold as a monitor alarm limit: 2px track, 8x18 cyan bar thumb, mono value.",
+      "html": "<div class=\"ds-limit\"><span class=\"ds-label\">Confidence limit</span><div class=\"ds-limit-row\"><input class=\"ds-range\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\" value=\"0.6\"><span class=\"ds-data ds-limit-value\">0.60</span></div></div>",
+      "css": ".ds-limit { display:flex; flex-direction:column; gap:6px; } .ds-limit-row { display:flex; align-items:center; gap:12px; } .ds-label { font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-11,0.6875rem); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-3,#5f6b74); } .ds-data { font-family:var(--font-data,'Martian Mono',monospace); font-stretch:87.5%; font-variant-numeric:tabular-nums; } .ds-limit-value { font-size:var(--fs-16,1rem); font-weight:500; min-width:4ch; color:var(--ink,#171e24); } .ds-range { -webkit-appearance:none; appearance:none; width:120px; height:20px; background:transparent; margin:0; } .ds-range::-webkit-slider-runnable-track { height:2px; background:var(--rule-strong,#b8c2c8); } .ds-range::-webkit-slider-thumb { -webkit-appearance:none; width:8px; height:18px; margin-top:-8px; border-radius:1px; background:var(--accent,#0a6f83); border:0; cursor:ew-resize; } .ds-range:focus-visible { outline:none; } .ds-range:focus-visible::-webkit-slider-thumb { box-shadow:0 0 0 2px var(--surface,#fff), 0 0 0 4px var(--accent,#0a6f83); }"
+    },
+    {
+      "name": "Readout",
+      "kind": "custom",
+      "refersTo": "readout",
+      "description": "Tracked label over a 28px mono count in its status hue; digits cross-fade over 420ms when they change.",
+      "html": "<div class=\"ds-readouts\"><div class=\"ds-readout ds-readout-ok\"><span class=\"ds-label\">Eligible</span><span class=\"ds-data ds-readout-value\">58</span></div><div class=\"ds-readout ds-readout-bad\"><span class=\"ds-label\">Ineligible</span><span class=\"ds-data ds-readout-value\">333</span></div><div class=\"ds-readout ds-readout-warn\"><span class=\"ds-label\">Review</span><span class=\"ds-data ds-readout-value\">109</span></div></div>",
+      "css": ".ds-readouts { display:flex; gap:20px; } .ds-readout { display:flex; flex-direction:column; gap:2px; min-width:72px; } .ds-label { font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-11,0.6875rem); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-3,#5f6b74); } .ds-data { font-family:var(--font-data,'Martian Mono',monospace); font-stretch:87.5%; font-variant-numeric:tabular-nums; } .ds-readout-value { font-size:var(--fs-28,1.75rem); font-weight:500; line-height:1; letter-spacing:-0.01em; } .ds-readout-ok .ds-readout-value { color:var(--ok,#157347); } .ds-readout-bad .ds-readout-value { color:var(--bad,#b02f27); } .ds-readout-warn .ds-readout-value { color:var(--warn,#835500); }"
+    },
+    {
+      "name": "Lamp Set",
+      "kind": "custom",
+      "refersTo": "lamp",
+      "description": "10px status lamps: filled met, hollow not met, half-filled uncertain, dashed pending; color says what the answer means for eligibility. The blip is the 420ms arrival flash.",
+      "html": "<div class=\"ds-lamps\"><svg class=\"ds-lamp ds-tone-ok\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"met\"><rect x=\"1\" y=\"1\" width=\"8\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg><svg class=\"ds-lamp ds-tone-bad\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"not met\"><rect x=\"1.75\" y=\"1.75\" width=\"6.5\" height=\"6.5\" rx=\"0.75\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/></svg><svg class=\"ds-lamp ds-tone-warn\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"uncertain\"><rect x=\"1.75\" y=\"1.75\" width=\"6.5\" height=\"6.5\" rx=\"0.75\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><rect x=\"1\" y=\"1\" width=\"4\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg><svg class=\"ds-lamp ds-tone-off\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"pending\"><rect x=\"1.75\" y=\"1.75\" width=\"6.5\" height=\"6.5\" rx=\"0.75\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1\" stroke-dasharray=\"1.5 1.5\"/></svg><svg class=\"ds-lamp ds-tone-ok ds-stale\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"met, stale\"><rect x=\"1\" y=\"1\" width=\"8\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg><svg class=\"ds-lamp ds-tone-ok ds-blip\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"met, arriving\"><rect x=\"1\" y=\"1\" width=\"8\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg></div>",
+      "css": ".ds-lamps { display:flex; gap:24px; align-items:center; height:28px; } .ds-lamp { display:block; color:var(--lamp-off,#c2cad0); transition:color 150ms, opacity 150ms; } .ds-tone-ok { color:var(--ok,#157347); } .ds-tone-bad { color:var(--bad,#b02f27); } .ds-tone-warn { color:var(--warn,#835500); } .ds-tone-off { color:var(--lamp-off,#c2cad0); } .ds-stale { opacity:0.55; } .ds-blip { animation:ds-blip 420ms cubic-bezier(0.16,1,0.3,1) infinite; } @keyframes ds-blip { 0% { color:var(--accent,#0a6f83); transform:scale(1.35); } 100% { transform:scale(1); } }"
+    },
+    {
+      "name": "Bed Row",
+      "kind": "card",
+      "refersTo": "bed-row",
+      "description": "A 28px hairline-ruled grid row: mono bed id, status glyph plus word, one lamp per channel; hover to rail gray, selected to cyan wash, focus draws an inset 2px cyan left bar.",
+      "html": "<div class=\"ds-rows\"><div class=\"ds-row\"><span class=\"ds-data ds-cell-id\">N-0009</span><span class=\"ds-status ds-status-eligible\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><rect x=\"1\" y=\"1\" width=\"10\" height=\"10\" rx=\"1.5\" fill=\"currentColor\"/><path d=\"M3.5 6.2 5.3 8 8.6 4.4\" fill=\"none\" stroke=\"var(--on-status,#fff)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Eligible</span><span class=\"ds-lamp ds-tone-ok\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\"1\" y=\"1\" width=\"8\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg></span><span class=\"ds-lamp ds-tone-ok\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\"1\" y=\"1\" width=\"8\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg></span><span class=\"ds-lamp ds-tone-ok\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\"1.75\" y=\"1.75\" width=\"6.5\" height=\"6.5\" rx=\"0.75\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/></svg></span></div><div class=\"ds-row ds-selected\"><span class=\"ds-data ds-cell-id\">N-0010</span><span class=\"ds-status ds-status-ineligible\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><rect x=\"1.75\" y=\"1.75\" width=\"8.5\" height=\"8.5\" rx=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M4.2 4.2l3.6 3.6M7.8 4.2 4.2 7.8\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>Ineligible</span><span class=\"ds-lamp ds-tone-bad\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\"1.75\" y=\"1.75\" width=\"6.5\" height=\"6.5\" rx=\"0.75\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/></svg></span><span class=\"ds-lamp ds-tone-warn\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\"1.75\" y=\"1.75\" width=\"6.5\" height=\"6.5\" rx=\"0.75\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><rect x=\"1\" y=\"1\" width=\"4\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg></span><span class=\"ds-lamp ds-tone-ok\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\"1\" y=\"1\" width=\"8\" height=\"8\" rx=\"1\" fill=\"currentColor\"/></svg></span></div></div>",
+      "css": ".ds-rows { width:360px; background:var(--surface,#fff); border-top:1px solid var(--rule,#d3dadf); } .ds-row { display:grid; grid-template-columns:88px 120px repeat(3,36px); align-items:center; height:28px; padding:0 16px; border-bottom:1px solid var(--rule,#d3dadf); cursor:default; transition:background-color 150ms; } .ds-row:hover { background:var(--surface-2,#e9edef); } .ds-row.ds-selected { background:var(--accent-soft,rgba(10,111,131,0.12)); } .ds-row:focus-visible { outline:none; box-shadow:inset 2px 0 0 var(--accent,#0a6f83); } .ds-data { font-family:var(--font-data,'Martian Mono',monospace); font-stretch:87.5%; font-variant-numeric:tabular-nums; } .ds-cell-id { font-size:var(--fs-12,0.75rem); color:var(--ink-2,#4c5761); } .ds-selected .ds-cell-id { color:var(--ink,#171e24); } .ds-status { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-12,0.75rem); font-weight:600; letter-spacing:0.01em; white-space:nowrap; } .ds-status-eligible { color:var(--ok,#157347); } .ds-status-ineligible { color:var(--bad,#b02f27); } .ds-lamp { display:flex; justify-content:center; } .ds-tone-ok { color:var(--ok,#157347); } .ds-tone-bad { color:var(--bad,#b02f27); } .ds-tone-warn { color:var(--warn,#835500); }"
+    },
+    {
+      "name": "Notice Band",
+      "kind": "custom",
+      "refersTo": "notice",
+      "description": "The thin synthetic-data advisory under the strip: amber wash, 6px square mark, 11px tracked text that wraps.",
+      "html": "<div class=\"ds-notice\"><span class=\"ds-notice-mark\"></span>Synthetic data only. Never load real patient data into this tool.</div>",
+      "css": ".ds-notice { display:flex; align-items:center; gap:8px; min-height:24px; padding:4px 16px; font-family:var(--font-label,'Barlow Semi Condensed',sans-serif); font-size:var(--fs-11,0.6875rem); font-weight:500; letter-spacing:0.02em; line-height:1.3; color:var(--ink-2,#4c5761); background:var(--warn-soft,rgba(131,85,0,0.16)); } .ds-notice-mark { width:6px; height:6px; background:var(--warn,#835500); flex:0 0 auto; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bedside Monitor",
+    "overview": "The screener is a multi-parameter patient monitor pointed at a clinical trial. Each eligibility criterion is a channel; each clinical note is a bed; the confidence threshold is an alarm limit; a run is the erase bar sweeping down the bed grid while lamps light behind it. The whole surface is one instrument, laid out as a monitor is: a numerics strip along the top with large mono readouts under small tracked labels, a thin advisory line beneath, a protocol rail to the left, and the dense bed grid filling the rest. It refuses the dashboard arrangement of KPI cards floating over a bordered table.\n\nTwo scenes light the same instrument. Day mode (the default; a research office with daylight on an external display) sits pale gray ink on near-white panels. Night mode is the same hardware with the room lights off: near-black ground, luminous cyan, brightened status hues. Nothing changes shape between scenes, only luminance. The build resolves the scene before first paint from a stored preference or the OS setting, so the instrument never flashes.\n\nDensity is high and even: a 4px module, 28px bed rows, 28px controls, hairline rules for every boundary. There are no cards, no gradients, and a single lifted surface (the inspector). Color carries meaning, never decoration: one cyan for the active channel, the sweep, focus, and selection; red, amber, and green only inside a status glyph and its word. Motion is confined to the run: an arrival blip, a digit cross-fade, a column dim, the sweep itself, and a short panel entry. Nothing else moves.",
+    "keyCharacteristics": [
+      "Monitor grammar: label above value, mono for every figure, condensed sans for every word.",
+      "One accent (cyan) reserved for the live channel, the sweep, focus, and selection.",
+      "Alarm semantics (red / amber / green) live only in a lamp or status glyph plus its word.",
+      "Square lamp glyphs encode state by shape: filled, hollow, half-filled, dashed hollow.",
+      "Hairline-rule construction: no cards, no gradients, one shadow.",
+      "Two luminance scenes (day default, night) on identical geometry.",
+      "Motion vocabulary of five moves, all tied to the run."
+    ],
+    "rules": [
+      {
+        "name": "The One Cyan Rule",
+        "body": "Cyan means \"live\": the channel being asked, the sweep, the Run control, focus, selection. It never encodes a result. If a value could be read as a status, it is green, red, or amber inside a glyph, not cyan.",
+        "section": "colors"
+      },
+      {
+        "name": "The Glyph-Plus-Word Rule",
+        "body": "Red, amber, and green appear only on a lamp, a status glyph with its word, a readout digit, or a kind tag whose letters name the kind. The shape or the word must carry the meaning when the color is removed.",
+        "section": "colors"
+      },
+      {
+        "name": "The Scene Swap Rule",
+        "body": "Night mode is set by data-theme=\"dark\" on the root and swaps only color tokens. Geometry, type, rules, and motion are identical in both scenes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono-for-Values Rule",
+        "body": "Any figure that can change while the user watches is set in Martian Mono with tabular figures. Words are never mono; numbers are never sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Label-Above Rule",
+        "body": "The 11px uppercase tracked label names the value, field, or column directly beneath it. It is a monitor's channel label, not an editorial eyebrow: it never sits above a heading or a paragraph.",
+        "section": "typography"
+      },
+      {
+        "name": "The Single Lift Rule",
+        "body": "Only the inspector floats. Every other boundary is a 1px rule, and every other layer is a ground step.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set every number that can change in Martian Mono at 87.5% width with tabular figures (.data).",
+      "Do place the 11px uppercase 0.08em label directly above the value or column it names, in Slate Ink 3.",
+      "Do separate regions with 1px Hairline rules and ground steps (Daylight Ground / Panel White / Rail Gray); reserve the shadow token for the inspector.",
+      "Do keep Channel Cyan for live state only: the asking channel, the sweep, Run, focus, selection.",
+      "Do pair every red, amber, or green with a glyph shape or word that carries the same meaning.",
+      "Do keep controls at 28px tall with 2px corners and 12px 600 tracked labels.",
+      "Do define night mode by swapping the color tokens under data-theme=\"dark\" and nothing else.",
+      "Do confine motion to the five moves above at 420 / 420 / 150 / 90+600 / 200ms on the ease-out curve."
+    ],
+    "donts": [
+      "Don't introduce cards, gradients, or shadows on any surface but the inspector.",
+      "Don't use Channel Cyan to mean eligible, ineligible, or any other result.",
+      "Don't convey a status by color alone; the lamp shape or the status word must survive grayscale.",
+      "Don't add motion outside the run: no hover lifts, no scroll effects, no ambient animation.",
+      "Don't set words in the mono face or figures in the condensed sans.",
+      "Don't round corners beyond 2px except the switch pill and the scrollbar thumb.",
+      "Don't put the tracked label above a heading or paragraph as an editorial eyebrow."
+    ]
+  }
+}

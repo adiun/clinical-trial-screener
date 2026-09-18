@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Eligibility Screener</title>
+    <meta name="description" content="Screens synthetic clinical notes against trial eligibility criteria with TypeSafe's Jev model." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      // Resolve the theme before first paint to avoid a flash.
+      (function () {
+        try {
+          var stored = localStorage.getItem("screener.theme");
+          var theme = stored === "light" || stored === "dark" ? stored : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

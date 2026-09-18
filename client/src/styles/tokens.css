@@ -1,0 +1,81 @@
+/* Design tokens: the bedside monitor world.
+   Day mode is the default scene (research office, daylight, external monitor);
+   night mode is the same instrument with the room lights off. */
+
+:root {
+  /* type */
+  --font-label: "Barlow Semi Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-data: "Martian Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --data-stretch: 87.5%;
+
+  --fs-11: 0.6875rem;
+  --fs-12: 0.75rem;
+  --fs-13: 0.8125rem;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-20: 1.25rem;
+  --fs-28: 1.75rem;
+
+  /* rhythm: a 4px module */
+  --u: 4px;
+  --row-h: 28px;
+  --header-h: 64px;
+  --notice-h: 24px;
+  --rail-w: 360px;
+  --inspector-w: 440px;
+  --radius: 2px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 150ms;
+  --t-blip: 420ms;
+
+  /* light scene */
+  --bg: #f1f4f5;
+  --surface: #ffffff;
+  --surface-2: #e9edef;
+  --ink: #171e24;
+  --ink-2: #4c5761;
+  --ink-3: #5f6b74;
+  --rule: #d3dadf;
+  --rule-strong: #b8c2c8;
+  --accent: #0a6f83;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(10, 111, 131, 0.12);
+  --ok: #157347;
+  --ok-soft: rgba(21, 115, 71, 0.14);
+  --bad: #b02f27;
+  --bad-soft: rgba(176, 47, 39, 0.12);
+  --warn: #835500;
+  --warn-soft: rgba(131, 85, 0, 0.16);
+  --lamp-off: #c2cad0;
+  --on-status: #ffffff;
+  --selection: rgba(10, 111, 131, 0.22);
+  --shadow: 0 12px 32px -12px rgba(23, 30, 36, 0.28), 0 2px 6px -2px rgba(23, 30, 36, 0.16);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a0d10;
+  --surface: #11161a;
+  --surface-2: #171d22;
+  --ink: #e6ebee;
+  --ink-2: #a3aeb6;
+  --ink-3: #7d8993;
+  --rule: #232b31;
+  --rule-strong: #34404a;
+  --accent: #3cc6dd;
+  --accent-ink: #061014;
+  --accent-soft: rgba(60, 198, 221, 0.16);
+  --ok: #4cc38a;
+  --ok-soft: rgba(76, 195, 138, 0.16);
+  --bad: #f0665c;
+  --bad-soft: rgba(240, 102, 92, 0.16);
+  --warn: #f0b323;
+  --warn-soft: rgba(240, 179, 35, 0.16);
+  --lamp-off: #2b353d;
+  --on-status: #ffffff;
+  --selection: rgba(60, 198, 221, 0.3);
+  --shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.7), 0 2px 8px -2px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
