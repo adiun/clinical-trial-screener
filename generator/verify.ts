@@ -4,6 +4,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { NoteTruth } from "../shared/types.js";
 import { addUsage, type UsageTotals } from "./cost.js";
+import { MED_ALIASES } from "./data.js";
 import { VERIFY_SCHEMA, VERIFY_SYSTEM, type VerifyItem, verifyUserMessage } from "./prompts.js";
 
 export interface DeterministicResult {
@@ -16,7 +17,14 @@ function medNameToken(name: string): string {
   return match ? match[0] : name;
 }
 
-/** Every lab value and every med's leading drug-name token must appear verbatim in the note text. */
+/** True if the drug's generic stem, or one of its known abbreviations/brand names, appears in the (already-lowercased) text. */
+function medMentioned(lowerText: string, medName: string): boolean {
+  const token = medNameToken(medName).toLowerCase();
+  if (lowerText.includes(token)) return true;
+  return (MED_ALIASES[token] ?? []).some((alias) => lowerText.includes(alias));
+}
+
+/** Every lab value and every med (by generic stem or known abbreviation/brand) must appear in the note text. */
 export function deterministicCheck(text: string, truth: NoteTruth): DeterministicResult {
   const missing: string[] = [];
   const lowerText = text.toLowerCase();
@@ -24,8 +32,7 @@ export function deterministicCheck(text: string, truth: NoteTruth): Deterministi
     if (!text.includes(String(lab.value))) missing.push(`lab ${lab.name}=${lab.value}`);
   }
   for (const med of truth.meds) {
-    const token = medNameToken(med.name).toLowerCase();
-    if (!lowerText.includes(token)) missing.push(`med ${med.name}`);
+    if (!medMentioned(lowerText, med.name)) missing.push(`med ${med.name}`);
   }
   return { ok: missing.length === 0, missing };
 }

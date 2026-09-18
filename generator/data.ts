@@ -54,6 +54,40 @@ export const MEDS = {
 
 export type MedKey = keyof typeof MEDS;
 
+/**
+ * Common abbreviations and brand names for meds in the pool above, keyed by
+ * the generic drug's lowercase leading word. Clinical notes routinely use
+ * these instead of the full generic name (especially in the "terse" format),
+ * so the deterministic fact-checker in verify.ts treats any of them as
+ * satisfying that medication's presence check.
+ */
+export const MED_ALIASES: Record<string, string[]> = {
+  aspirin: ["asa"],
+  hydrochlorothiazide: ["hctz"],
+  atorvastatin: ["atorva", "lipitor"],
+  rosuvastatin: ["crestor"],
+  amlodipine: ["norvasc"],
+  lisinopril: ["prinivil", "zestril"],
+  losartan: ["cozaar"],
+  metoprolol: ["lopressor", "toprol"],
+  albuterol: ["proair", "ventolin", "proventil"],
+  tiotropium: ["spiriva"],
+  sertraline: ["zoloft"],
+  escitalopram: ["lexapro"],
+  levothyroxine: ["synthroid"],
+  omeprazole: ["prilosec"],
+  apixaban: ["eliquis"],
+  naproxen: ["aleve", "naprosyn"],
+  glipizide: ["glucotrol"],
+  glimepiride: ["amaryl"],
+  empagliflozin: ["jardiance"],
+  dapagliflozin: ["farxiga"],
+  semaglutide: ["ozempic", "wegovy"],
+  dulaglutide: ["trulicity"],
+  liraglutide: ["victoza", "saxenda"],
+  tirzepatide: ["mounjaro", "zepbound"],
+};
+
 export const PROCEDURES: Record<string, string[]> = {
   cad: ["cardiac catheterization", "percutaneous coronary intervention", "coronary artery bypass graft"],
   pancreatitis: ["laparoscopic cholecystectomy"],
@@ -98,9 +132,15 @@ export const NEGATIONS_BY_CONDITION: Partial<Record<DiagnosisKey, readonly strin
   depression: ["denies suicidal ideation"],
 };
 
-export const DISCONTINUATION_REASONS = ["GI intolerance", "hyperkalemia", "insurance formulary change", "patient preference", "hypoglycemia", "elevated liver enzymes", "cost"] as const;
+// Deliberately excludes lab-backed reasons (hyperkalemia, hypoglycemia, elevated liver
+// enzymes, etc.): naming one implies a lab result not tracked in truth.labs, which the
+// hallucination verifier correctly flags. Keep this narrative-only.
+export const DISCONTINUATION_REASONS = ["GI intolerance", "insurance formulary change", "patient preference", "medication intolerance", "side effects", "cost"] as const;
 
-export const RESOLUTION_NOTES = ["resolved after treatment, now inactive", "in remission", "quiescent, no recurrence since", "resolved status post cholecystectomy"] as const;
+// Deliberately excludes phrases naming a specific procedure or lab (e.g. "status post
+// cholecystectomy"): applied to an arbitrary diagnosis, that asserts a procedure not in
+// truth.procedures. Keep this narrative-only.
+export const RESOLUTION_NOTES = ["resolved after treatment, now inactive", "in remission", "quiescent, no recurrence since", "resolved, no current symptoms"] as const;
 
 export const FORMATS = ["soap", "discharge_summary", "terse", "dictated"] as const;
 export type NoteFormat = (typeof FORMATS)[number];
